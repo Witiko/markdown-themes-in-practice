@@ -122,9 +122,11 @@ taste for many authors.
 \noindent
 All boilerplate code is now hidden behind descriptive names such as \texttt{metadata} and \texttt{body}, which are intelligible to authors. If we need to make changes to the code, we only have to change the theme, not existing documents.
 
-In July 2023, I began working with the International Software Testing Qualifications Board (\acro{ISTQB}) to create a solution for typesetting their certification study materials from \acro{YAML} and Markdown sources. We developed a \LaTeX{} document class and several Markdown themes~\cite{istqb2024productbase}, which I discuss in this article as a case study of using the Markdown package for a real-world software project.
+While simple examples like this serve as a useful introduction to the concepts behind Markdown themes, they do not show how these concepts apply on a larger scale in real-world software projects.
 
-The rest of this article is organized as follows: First, in Section~\ref{sec:recap}, I quickly recap the changes to Markdown themes since I last wrote about them in 2021~\cite{novotny2021markdown}. Next, in Section~\ref{sec:case-study}, I describe the Markdown themes that I developed for \acro{ISTQB}. Finally, I conclude in Section~\ref{sec:conclusion} by summarizing the lessons learnt in this article and outlining future work for Markdown themes.
+In July 2023, I began working with the International Software Testing Qualifications Board (\acro{ISTQB}) to create a solution for typesetting their certification study materials from \acro{YAML} and Markdown sources. We developed a \LaTeX{} document class and several Markdown themes~\cite{istqb2024productbase}, which I discuss in this article as a case study of using the Markdown package in a real-world software project.
+
+The rest of this article is organized as follows: In Section~\ref{sec:recap}, I quickly recap the changes to Markdown themes since I last wrote about them in 2021~\cite{novotny2021markdown}. In Section~\ref{sec:case-study}, I describe the Markdown themes that I developed for \acro{ISTQB}.
 
 \section{Quick recap: What's new for themes?}
 \label{sec:recap}
@@ -148,8 +150,7 @@ Give a quick taste of changes to \LaTeX{} themes since version 2.10.0: \\
 
 \subsection{ISTQB sample exam documents}
 
-\section{Conclusion}
-\label{sec:conclusion}
+\section*{Conclusion}
 
 \SetBibJustification{\raggedright \advance\itemsep by 2pt plus1pt minus1pt }
 \bibliographystyle{tugboat}
