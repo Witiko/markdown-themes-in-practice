@@ -23,7 +23,7 @@
 \makeatletter\def\@font@warning#1{}\makeatother
 
 %%% Start of metadata %%%
-\title{Markdown themes \emph{in practice}}
+\title{Markdown themes in practice}
 
 % repeat info for each author; comment out items that don't apply.
 \author{Vít Starý Novotný}
@@ -38,7 +38,7 @@
 
 \begin{abstract}
 The Markdown package for \TeX{} supports themes that allow
-\TeX{}nicians to tailor the presentation of Markdown and \acro{YAML} content
+\TeX nicians to tailor the presentation of Markdown and \acro{YAML} content
 on the page. In this article, I will show the current state of Markdown
 themes using the example of \LaTeX{} templates that I developed for the
 International Software Testing Qualifications Board (\acro{ISTQB}).
@@ -48,90 +48,15 @@ themes for \LaTeX, and insights into extending these principles to other
 \end{abstract}
 
 \section*{Introduction}
-Although \TeX{} has beautiful output, its input macro language is an acquired taste for many authors. The Markdown package for \TeX~\cite{novotny2017markdown} allows authors to type familiar \acro{YAML} and Markdown directly into a \TeX{} document and have a similarly beautiful output come out (mostly) hassle-free:
+Although \TeX{} has beautiful output, its input macro language is an acquired taste for many authors. The Markdown package for \TeX~\cite{novotny2017markdown} allows authors to type familiar Markdown and \acro{YAML} directly into a \TeX{} document and receive a similarly beautiful output.
 
-\begin{verbatim}
-\documentclass{ltugboat}
-\usepackage[jekyll_data]{markdown}
-\begin{markdown}[expect_jekyll_data]
-title: Markdown themes *in practice*
-author: Vít Starý Novotný
-\end{markdown}
-\begin{document}
-\begin{markdown}[
-  raw_attribute,
-  renderers = {
-    headingOne = \section{#1}
-  }
-]
-# Introduction
-Although `\TeX`{=tex} has beautiful output,
-its input macro language is an acquired
-taste for many authors.
-\end{markdown}
-\end{document}
-\end{verbatim}
+In my previous article, I introduced Markdown themes~\cite{novotny2021markdown}. Much like \acro{CSS} stylesheets, Markdown themes allow \TeX nicians to tailor the presentation of Markdown and \acro{YAML} content without complicating the document markup for authors. While that article used simple examples to explain the basic concepts behind Markdown themes, it did not demonstrate their application on a larger scale in real-world software projects.
 
-The above example is filled with unnecessary boilerplate code, which does nothing for the author except distract them from authoring. Furthermore, if we need to make changes to the code and many existing documents use it, we need to make the changes to all of them, which can be a time-consuming task.
-
-We can solve both problems by extracting the code into a Markdown theme~\cite{novotny2021markdown} \texttt{witiko/ltugboat}:
-
-\begin{verbatim}
-\ProvidesExplFile
-  {markdownthemewitiko_ltugboat.sty}%
-  {2024-05-16}{0.0.1}%
-  {Markdown theme for ltugboat package}
-\markdownSetup
-  { jekyll_data }
-\markdownSetupSnippet
-  { metadata }
-  { expect_jekyll_data }
-\markdownSetupSnippet
-  { body }
-  {
-    raw_attribute,
-    renderers = {
-      headingOne = \section{#1}
-    }
-  }
-\end{verbatim}
-
-\noindent
-We can now simplify the example as follows:
-
-\begin{verbatim}
-\documentclass{ltugboat}
-\usepackage{markdown}
-\markdownSetup{theme = witiko/ltugboat}
-\begin{markdown}
-      [snippet = witiko/ltugboat/metadata]
-title: Markdown themes *in practice*
-author: Vít Starý Novotný
-\end{markdown}
-\begin{document}
-\begin{markdown}
-      [snippet = witiko/ltugboat/body]
-# Introduction
-Although `\TeX`{=tex} has beautiful output,
-its input macro language is an acquired
-taste for many authors.
-\end{markdown}
-\end{document}
-\end{verbatim}
-
-\noindent
-All boilerplate code is now hidden behind descriptive names such as \texttt{metadata} and \texttt{body}, which are intelligible to authors. If we need to make changes to the code, we only have to change the theme, not existing documents.
-
-While simple examples like this serve as a useful introduction to the concepts behind Markdown themes, they do not show how these concepts apply on a larger scale in real-world software projects.
-
-In July 2023, I began working with the International Software Testing Qualifications Board (\acro{ISTQB}) to create a solution for typesetting their certification study materials from \acro{YAML} and Markdown sources. We developed a \LaTeX{} document class and several Markdown themes~\cite{istqb2024productbase}, which I discuss in this article as a case study of using the Markdown package in a real-world software project.
-
-The rest of this article is organized as follows: In Section~\ref{sec:recap}, I quickly recap the changes to Markdown themes since I last wrote about them in 2021~\cite{novotny2021markdown}. In Section~\ref{sec:case-study}, I describe the Markdown themes that I developed for \acro{ISTQB}.
-
-\section{Quick recap: What's new for themes?}
-\label{sec:recap}
+In July 2023, I began working with the International Software Testing Qualifications Board (\acro{ISTQB}) to create a solution for typesetting their certification study materials from Markdown and \acro{YAML} sources. We developed a \LaTeX{} document class and several Markdown themes~\cite{istqb2024productbase}, which I discuss in this article as a case study of using Markdown themes in a real-world software project.
 
 \iffalse
+\section{Quick recap: What's new for themes?}
+\label{sec:recap}
 Give a quick taste of changes to \LaTeX{} themes since version 2.10.0: \\
 - Version 2.22.0 added option \texttt{import}. \\
 - Version 2.23.0 added support for bulk redefinitions of token renderers and renderer prototypes using wildcards. \\
@@ -141,14 +66,11 @@ Give a quick taste of changes to \LaTeX{} themes since version 2.10.0: \\
 - Version 3.5.0 added support for incremental definitions of token renderers and renderer prototypes. \\
 \fi
 
-\section{Case study: ISTQB documents}
-\label{sec:case-study}
+\section{Architecture}
 
-\subsection{Architecture}
+\section{ISTQB syllabus documents}
 
-\subsection{ISTQB syllabus documents}
-
-\subsection{ISTQB sample exam documents}
+\section{ISTQB sample exam documents}
 
 \section*{Conclusion}
 
