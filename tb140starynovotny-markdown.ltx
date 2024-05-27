@@ -1,5 +1,6 @@
 \documentclass[final]{ltugboat}
 \usepackage[T1]{fontenc} % tt \_
+\usepackage{lmodern}
 \usepackage{microtype}
 \usepackage{graphicx}
 \usepackage[hidelinks,pdfa]{hyperref}
@@ -52,25 +53,72 @@ Although \TeX{} has beautiful output, its input macro language is an acquired ta
 
 In my previous article, I introduced Markdown themes~\cite{novotny2021markdown}. Much like \acro{CSS} stylesheets, Markdown themes allow \TeX nicians to tailor the presentation of Markdown and \acro{YAML} content without complicating the document markup for authors. While that article used simple examples to explain the basic concepts behind Markdown themes, it did not demonstrate their application on a larger scale in real-world software projects.
 
-In July 2023, I began working with the International Software Testing Qualifications Board (\acro{ISTQB}) to create a solution for typesetting their certification study materials from Markdown and \acro{YAML} sources. We developed a \LaTeX{} document class and several Markdown themes~\cite{istqb2024productbase}, which I discuss in this article as a case study of using the Markdown package in a real-world software project.
+In July 2023, I began working with the International Software Testing Qualifications Board (\acro{ISTQB}) to help them typeset their certification study materials from Markdown and \acro{YAML} sources. In this article, I discuss my work as a case study of using the Markdown package in a real-world software project.
+
+\section*{Project overview}
+In my work, I developed a \LaTeX{} document class and six Markdown themes~\cite{istqb2024productbase}.
+
+The \LaTeX{} document class is named \texttt{istqb} and it is stored in file \texttt{template/istqb.cls}. It implements the design of all \acro{ISTQB} documents, defines the meaning of common Unicode characters, and defines \LaTeX{} markup such as \cs{istqbsection}, \texttt{\textbackslash istqblandscape\-begin} and \texttt{end}, and \texttt{\textbackslash begin\{istqbobjectives\}}\,\ldots\ \texttt{\textbackslash end\{istqbobjectives\}}.
+
+\begin{figure*}
+\centering
+\includegraphics[width=\linewidth]{class-diagram}
+\caption{A class diagram of the Markdown themes that I developed for the International Software Testing Qualifications Board (\acro{ISTQB}). The snippets \texttt{language}, \texttt{metadata}, and \texttt{questions} specify the public interface of the themes. The arrows specify inheritance, e.g. the theme \texttt{istqb/sample-exam/answers} loads both themes \texttt{istqb/common} and \texttt{istqb/sample-exam} and implements all three snippets.}
+\label{fig:class-diagram}
+\end{figure*}
+
+The Markdown themes are named \texttt{istqb/*} and stored in files \texttt{template/markdowntheme*.sty}, see also Figure~\ref{fig:class-diagram}. Here is a description of the themes:
+\begin{itemize}
+\item The theme \texttt{istqb/common} sets up Markdown syntax extensions, implements the loading of \acro{YAML} language definitions and document metadata into \TeX{} macros, and defines the mapping between Markdown elements and \LaTeX{} markup. The remaining themes are based on this theme and they implement support for specific types of \acro{ISTQB} documents.
+\item The \texttt{istqb/body-of-knowledge} and  \texttt{syllabus} themes are used in \acro{ISTQB} Body of Knowledge and Syllabus documents. At the time of writing, the themes implement no extra functionality.
+\item The theme \texttt{istqb/sample-exam} implements the loading of \acro{YAML} question definitions into \TeX{} macros in \acro{ISTQB} Sample Exam Questions and Answers documents. The following two themes are based on this theme.
+\item The theme \texttt{istqb/sample-exam/questions} implements the typesetting of questions in \acro{ISTQB} Sample Exam Questions documents.
+\item The theme \texttt{istqb/sample-exam/answers} implements the typesetting of answers in \acro{ISTQB} Sample Exam Answers documents.
+\end{itemize}
+
+In the rest of the article, I discuss the different parts of the implementation. Since \LaTeX{} document classes seem well-understood, I focus primarily on Markdown themes.
+First, in Section~\ref{sec:syntax-extensions}, I describe the syntax extensions set up by the themes. Then, in Section~\ref{sec:yaml}, I describe how the themes process \acro{YAML} content. Finally, in Section~\ref{sec:mapping}, I describe how the themes map Markdown elements onto \LaTeX{} markup.
 
 \iffalse
-\section{Quick recap: What's new for themes?}
-\label{sec:recap}
-Give a quick taste of changes to \LaTeX{} themes since version 2.10.0: \\
-- Version 2.22.0 added option \texttt{import}. \\
-- Version 2.23.0 added support for bulk redefinitions of token renderers and renderer prototypes using wildcards. \\
-- Version 3.1.0 added command \verb|\markdownSetup| to all formats. \\
-- Version 3.2.0 added support for bulk redefinitions of token renderers and renderer prototypes using enumeration. \\
-- Version 3.3.0 added support for universal (cross-format) themes. \\
-- Version 3.5.0 added support for incremental definitions of token renderers and renderer prototypes. \\
+Each section is structured as follows: First, I give a broader context for the topic of the section. Then, I describe the implementation using one or more code examples. Finally, I show a relevant excerpt from the example ISTQB Syllabus document~\cite{istqb2024example} and the typeset output.
+\else
+\nocite{istqb2024example}
 \fi
 
-\section{Architecture}
-
-\section{ISTQB syllabus documents}
-
-\section{ISTQB sample exam documents}
+\section{Syntax extensions}
+\label{sec:syntax-extensions}
+\subsection{Attributes}
+% headerAttributes [@istqb2024example, Section 1.8]
+% linkAttributes [@istqb2024example, sections 1.9 and 1.13]
+\subsection{References}
+% relativeReferences [@istqb2024example, sections 1.8 through 1.10]
+% citations [@istqb2024example, Section 1.12]
+\subsection{Tables}
+% pipeTables, tableCaptions [@istqb2024example, sections Revision History and 1.11]
+% tableAttributes [@istqb2024example, Section 1.10]
+\subsection{\acro{YAML} content}
+% jekyllData, expectJekyllData [@istqb2024example, Section 1.1]
+\subsection{Complex typography}
+% rawAttribute [Section 1.11]
+% superscripts, subscripts [@istqb2024example, Section 1.5]
+\section{Processing \acro{YAML} content}
+\label{sec:yaml}
+\subsection{Language definitions}
+\subsection{Document metadata}
+\subsection{Question definitions}
+\section{Mapping from Markdown to \LaTeX{}}
+\label{sec:mapping}
+\subsection{Sections}
+% headingOne, headingTwo, headingThree, headingFour [@istqb2024example, Section 1.8]
+% attributeClassName: unnumbered, landscape [@istqb2024example, Section 1.7]
+\subsection{References}
+% relativeReferences [@istqb2024example, sections 1.8 through 1.10]
+% citations [@istqb2024example, Section 1.12]
+\subsection{Tables}
+% [@istqb2024example, sections 1.11 and Revision History]
+\subsection{Objective lists}
+% [@istqb2024example, sections 1.2]
+\subsection{Question definitions}
 
 \section*{Conclusion}
 
