@@ -1,0 +1,22 @@
+organization: ISTQB®
+schema: Certified Tester
+level: Foundation Level
+title: Example Document
+prefix: EXMPL
+code: CT-EXMPL
+type: Syllabus
+version: v0.1
+language: en
+compatibility: >
+  Compatible with Syllabus on Foundation
+  and Advanced Levels, and Specialist
+  Modules
+provided-by:
+- name: Czech and Slovak Quality Board
+  logo: casqb-logo-vertical
+- name: Polish Testing Board
+  logo: sjsi-logo
+- name: >
+    International Requirements Engineering
+    Board
+- Hungarian Testing Board
