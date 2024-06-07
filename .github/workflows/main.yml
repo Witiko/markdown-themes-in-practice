@@ -7,6 +7,7 @@ on:
   workflow_dispatch:
 env:
   DEBIAN_FRONTEND: noninteractive
+  TEXINPUTS: '.:./istqb_product_base/template:'
 jobs:
   typeset-paper:
     name: Typeset article
@@ -17,11 +18,20 @@ jobs:
       contents: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+      - name: Install additional packages
+        run: |
+          set -ex
+          apt -qy update
+          apt -qy install --no-install-recommends parallel
+      - name: Typeset examples
+        run: parallel --halt now,fail=1 -- latexmk -cd ':::' examples/*.tex
       - name: Typeset article
-        run: latexmk -pdf -Werror tb140starynovotny-markdown.ltx
+        run: latexmk tb140starynovotny-markdown.ltx
       - name: Upload artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: tb140starynovotny-markdown
           path: tb140starynovotny-markdown.pdf

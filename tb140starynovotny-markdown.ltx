@@ -5,18 +5,11 @@
 \usepackage{graphicx}
 \usepackage[hidelinks,pdfa]{hyperref}
 \usepackage{hologo}
-\makeatletter
-% listings float without package
-\newenvironment{listing*}{\@dblfloat{listing}}{\end@dblfloat}
-\def\ext@listing{lol}
-\newcommand*{\ftype@listing}{4}
-\newcounter{listing}
-\newcommand*{\fnum@listing}{\textbf{Listing~\thelisting}}
-\def\fps@listing{p}
-\makeatother
-\usepackage{fancyvrb,fvextra}
-\fvset{breaklines}
+\usepackage{minted}
+\AtBeginEnvironment{minted}{\let\textit\textsl}
+\usemintedstyle{bw}
 \usepackage{tikz}
+\usetikzlibrary{positioning}
 \def\url{\tbsurl}
 % silence font warnings:
 % LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <45> not available
@@ -55,71 +48,90 @@ In my previous article, I introduced Markdown themes~\cite{novotny2021markdown}.
 
 In July 2023, I began working with the International Software Testing Qualifications Board (\acro{ISTQB}) to help them typeset their certification study materials from Markdown and \acro{YAML} sources. In this article, I discuss my work as a case study of using the Markdown package in a real-world software project.
 
+\begin{figure*}
+\centering
+\includegraphics[width=\linewidth]{images/class-diagram}
+\caption{A class diagram of the six Markdown themes that I developed for the International Software Testing Qualifications Board (\acro{ISTQB}). The snippets \texttt{language}, \texttt{metadata}, \texttt{questions}, \texttt{answer-key}, and \texttt{answers} specify the public interface of the themes. The arrows specify inheritance. For example, the theme \texttt{istqb/sample-exam/answers} loads both themes \texttt{istqb/common} and \texttt{istqb/sample-exam} and implements all five snippets.}
+\label{fig:class-diagram}
+\end{figure*}
+
 \section*{Project overview}
 In my work, I developed a \LaTeX{} document class and six Markdown themes~\cite{istqb2024productbase}.
 
 The \LaTeX{} document class is named \texttt{istqb} and it is stored in file \texttt{template/istqb.cls}. It implements the design of all \acro{ISTQB} documents, defines the meaning of common Unicode characters, and defines \LaTeX{} markup such as \cs{istqbsection}, \texttt{\textbackslash istqblandscape\-begin} and \texttt{end}, and \texttt{\textbackslash begin\{istqbobjectives\}}\,\ldots\ \texttt{\textbackslash end\{istqbobjectives\}}.
 
-\begin{figure*}
-\centering
-\includegraphics[width=\linewidth]{class-diagram}
-\caption{A class diagram of the six Markdown themes that I developed for the International Software Testing Qualifications Board (\acro{ISTQB}). The snippets \texttt{language}, \texttt{metadata}, and \texttt{questions} specify the public interface of the themes. The arrows specify inheritance, e.g. the theme \texttt{istqb/sample-exam/answers} loads both themes \texttt{istqb/common} and \texttt{istqb/sample-exam} and implements all three snippets.}
-\label{fig:class-diagram}
-\end{figure*}
-
 The Markdown themes are named \texttt{istqb/*} and stored in files \texttt{template/markdowntheme*.sty}, see also Figure~\ref{fig:class-diagram}. Here is a description of the themes:
 \begin{itemize}
-\item The theme \texttt{istqb/common} sets up Markdown syntax extensions, implements the loading of \acro{YAML} language definitions and document metadata into \TeX{} macros, and defines the mapping between Markdown elements and \LaTeX{} markup. The remaining themes are based on this theme and they implement support for specific types of \acro{ISTQB} documents.
+\item The theme \texttt{istqb/common} enables Markdown syntax extensions, implements the loading of \acro{YAML} language definitions and document metadata into \TeX{} macros, and defines the mapping between Markdown elements and \LaTeX{} markup. The remaining themes are based on this theme and they implement support for specific types of \acro{ISTQB} documents.
 \item The \texttt{istqb/body-of-knowledge} and  \texttt{syllabus} themes are used in \acro{ISTQB} Body of Knowledge and Syllabus documents. At the time of writing, the themes implement no extra functionality.
 \item The theme \texttt{istqb/sample-exam} implements the loading of \acro{YAML} question definitions into \TeX{} macros in \acro{ISTQB} Sample Exam Questions and Answers documents. The following two themes are based on this theme.
 \item The theme \texttt{istqb/sample-exam/questions} implements the typesetting of questions in \acro{ISTQB} Sample Exam Questions documents.
-\item The theme \texttt{istqb/sample-exam/answers} implements the typesetting of answers in \acro{ISTQB} Sample Exam Answers documents.
+\item The theme \texttt{istqb/sample-exam/answers} implements typesetting of answer keys and answers in \acro{ISTQB} Sample Exam Answers documents.
 \end{itemize}
+\vfill
 
-In the rest of the article, I discuss the different parts of the implementation. Since \LaTeX{} document classes seem well-understood, I focus primarily on Markdown themes.
-First, in Section~\ref{sec:syntax-extensions}, I describe the syntax extensions set up by the themes. Then, in Section~\ref{sec:yaml}, I describe how the themes process \acro{YAML} content. Finally, in Section~\ref{sec:mapping}, I describe how the themes map Markdown elements onto \LaTeX{} markup.
+\noindent
+\begin{tikzpicture}[every node/.style={inner sep=0pt, outer sep=0pt}]
+  \node (wolf) at (0, 0) {\includegraphics[width=\linewidth]{images/detective-wolf.jpg}};
+  \node [above=-4.5mm of wolf, text width=\linewidth, align=justify] {In the rest of this article, I discuss different parts of the implementation. In each section, I first present an example document and I show the typeset output. Then, I explain the implementation.};
+  \node [below=3mm of wolf, text width=\linewidth, align=center] {With Markdown themes, your document can look like anything, even like a wolf in a disguise.};
+\end{tikzpicture}%
+\vspace{-0.65mm}
 
-\iffalse
-Each section is structured as follows: First, I give a broader context for the topic of the section. Then, I describe the implementation using one or more code examples. Finally, I show a relevant excerpt from the example ISTQB Syllabus document~\cite{istqb2024example} and the typeset output.
-\else
-\nocite{istqb2024example}
-\fi
-
-\section{Syntax extensions}
-\label{sec:syntax-extensions}
-\subsection{Attributes}
-% headerAttributes [@istqb2024example, Section 1.8]
-% linkAttributes [@istqb2024example, sections 1.9 and 1.13]
-\subsection{References}
-% relativeReferences [@istqb2024example, sections 1.8 through 1.10]
-% citations [@istqb2024example, Section 1.12]
-\subsection{Tables}
-% pipeTables, tableCaptions [@istqb2024example, sections Revision History and 1.11]
-% tableAttributes [@istqb2024example, Section 1.10]
-\subsection{\acro{YAML} content}
-% jekyllData, expectJekyllData [@istqb2024example, Section 1.1]
-\subsection{Complex typography}
-% rawAttribute [Section 1.11]
-% superscripts, subscripts [@istqb2024example, Section 1.5]
 \section{Processing \acro{YAML} content}
 \label{sec:yaml}
-\subsection{Language definitions}
+The themes define snippets \texttt{metadata}, \texttt{language}, and \texttt{questions} for processing \acro{YAML} files with document metadata, language definitions, and question definitions, respectively.
+
 \subsection{Document metadata}
-\subsection{Question definitions}
-\section{Mapping from Markdown to \LaTeX{}}
-\label{sec:mapping}
-\subsection{Sections}
-% headingOne, headingTwo, headingThree, headingFour [@istqb2024example, Section 1.8]
-% attributeClassName: unnumbered, landscape [@istqb2024example, Section 1.7]
-\subsection{References}
-% relativeReferences [@istqb2024example, sections 1.8 through 1.10]
-% citations [@istqb2024example, Section 1.12]
-\subsection{Tables}
-% [@istqb2024example, sections 1.11 and Revision History]
-\subsection{Objective lists}
-% [@istqb2024example, sections 1.2]
+Here is an example \acro{ISTQB} Syllabus document that loads document metadata from a \acro{YAML} file named \texttt{metadata.yml} and typesets a landing page:
+\inputminted{latex}{examples/landing-page.tex}
+
+\noindent
+Here is the \acro{YAML} file \texttt{metadata.yml}:
+\inputminted{yaml}{examples/metadata.yml}
+
+Typesetting the example \acro{ISTQB} Syllabus document produces the following output:
+\smallskip
+
+\begingroup
+\centering
+\setlength{\fboxsep}{0pt}
+\fbox{\includegraphics[width=.625\linewidth, trim={15mm 30mm 15mm 40mm}, clip]{examples/landing-page}}
+\par
+\endgroup
+
+\subsection{Language definitions}
 \subsection{Question definitions}
 
+\section{Typesetting Markdown content}
+\label{sec:markdown}
+\subsection{Landing page}
+% [@istqb2024example, Section 1.1]
+\subsection{Learning objectives}
+% [@istqb2024example, Section 1.2]
+\subsection{Superscripts and subscripts}
+% [@istqb2024example, Section 1.5]
+\subsection{Sections}
+% [@istqb2024example, Section 1.7]
+\subsection{Figures}
+% [@istqb2024example, Section 1.9]
+\subsection{Simple tables}
+% [@istqb2024example, Section 1.10]
+\subsection{Complex tables}
+% [@istqb2024example, Section 1.11]
+% [@istqb2024productbase, Issue #51]
+\subsection{Cross-references}
+% [@istqb2024example, sections 1.8--1.10]
+\subsection{Citations}
+% [@istqb2024example, Section 1.12]
+\subsection{Indexing}
+% [@istqb2024example, Section 1.13]
+\subsection{Questions}
+% [@istqb2024producttemplate, File sample-exam-questions.tex]
+\subsection{Answer key}
+% [@istqb2024producttemplate, File sample-exam-answers.tex]
+\subsection{Answers}
+% [@istqb2024producttemplate, File sample-exam-answers.tex]
 \section*{Conclusion}
 
 \SetBibJustification{\raggedright \advance\itemsep by 2pt plus1pt minus1pt }

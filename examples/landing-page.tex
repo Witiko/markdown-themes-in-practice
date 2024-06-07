@@ -1,0 +1,11 @@
+\documentclass{istqb}
+\usepackage{markdown}
+\markdownSetup {
+  import = {
+    istqb/syllabus = metadata as meta
+  }
+}
+\markdownInput[snippet=meta]{metadata.yml}
+\begin{document}
+\istqblandingpage
+\end{document}
