@@ -1,0 +1,122 @@
+\keys_define:nn% \linelabel{keys:istqb/metadata:begin} %
+  { istqb / metadata }
+  {
+    organization .tl_gset:N =
+      \g_istqb_organization_tl,
+    schema .tl_gset:N = \g_istqb_schema_tl,
+    level .tl_gset:N = \g_istqb_level_tl,
+    title .tl_gset:N = \g_istqb_title_tl,
+    prefix .tl_gset:N = \g_istqb_prefix_tl,
+    code .tl_gset:N = \g_istqb_code_tl,
+    type .tl_gset:N = \g_istqb_type_tl,
+    version .tl_gset:N = \g_istqb_version_tl,
+    language .tl_gset:N =
+      \g_istqb_language_tl,
+    compatibility .tl_gset:N =
+      \g_istqb_compatibility_tl,
+  }% \linelabel{keys:istqb/metadata:end} %
+
+\markdownSetupSnippet% \linelabel{snippet:metadata:begin} %
+  { metadata }
+  {
+    jekyllData,
+    expectJekyllData,
+    renderers = {
+      jekyllData(String|Number) = {
+        \keys_set:nn
+          { istqb / metadata }
+          { { #1 } = { #2 } }
+      },
+      jekyllDataSequenceBegin = {
+        \str_case:nn
+          { #1 }
+          {
+            { provided-by } {
+              % A third-party organization
+              \markdownSetup {% \linelabel{pattern:first:begin} %
+                code = \group_begin:,
+                renderers = {
+                  jekyllDataSequenceEnd =
+                },
+                snippet = istqb / common
+                  / metadata / provided-by,
+                renderers = {
+                  jekyllDataSequenceEnd +=
+                    \group_end:
+                },
+              }% \linelabel{pattern:first:end} %
+            }
+          }
+      },
+      jekyllDataEnd = {
+        \istqb_load_language:V
+          \g_istqb_language_tl
+      },
+    },
+  }% \linelabel{snippet:metadata:end} %
+\seq_new:N \g_istqb_third_parties_seq% \linelabel{snippet:metadata/provided-by:begin} %
+\markdownSetupSnippet
+  { metadata / provided-by }
+  {
+    renderers = {
+      jekyllData(String|Number) = {
+        % Short-hand definition
+        \seq_gput_right:Nn
+          \g_istqb_third_parties_seq
+          { #2 }
+      },
+      jekyllDataMappingBegin = {
+        % Verbose definition
+        \markdownSetup {% \linelabel{pattern:second:begin} %
+          code = \group_begin:,
+          renderers = {
+            jekyllDataMappingEnd =
+          },
+          snippet = istqb / common
+            / metadata / provided-by
+            / verbose,
+          renderers = {
+            jekyllDataMappingEnd +=
+              \group_end:
+          },
+        }% \linelabel{pattern:second:end} %
+      },
+    },
+  }% \linelabel{snippet:metadata/provided-by:end} %
+
+\tl_new:N \l_istqb_third_party_name_tl% \linelabel{keys:istqb/metadata/provided-by:begin} %
+\tl_new:N \l_istqb_third_party_logo_tl
+\keys_define:nn
+  { istqb / metadata / provided-by }
+  {
+    name .tl_set:N =
+      \l_istqb_third_party_name_tl,
+    logo .tl_set:N =
+      \l_istqb_third_party_logo_tl,
+  }% \linelabel{keys:istqb/metadata/provided-by:end} %
+
+\prop_new:N \g_istqb_third_party_logos_prop% \linelabel{snippet:metadata/provided-by/verbose:begin} %
+\markdownSetupSnippet
+  { metadata / provided-by / verbose }
+  {
+    renderers = {
+      jekyllData(String|Number) = {
+        \keys_set:nn
+          { istqb / metadata / provided-by }
+          { { #1 } = { #2 } }
+      },
+      jekyllDataMappingEnd = {
+        \seq_gput_right:NV
+          \g_istqb_third_parties_seq
+          \l_istqb_third_party_name_tl
+        \tl_if_empty:VF
+          \l_istqb_third_party_logo_tl
+          {
+            \prop_gput:NVV
+              \g_istqb_third_party_logos_prop
+              \l_istqb_third_party_name_tl
+              \l_istqb_third_party_logo_tl
+          }
+      },
+    }
+  }% \linelabel{snippet:metadata/provided-by/verbose:end} %
