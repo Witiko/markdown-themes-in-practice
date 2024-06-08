@@ -48,12 +48,23 @@
             }
           }
       },
-      jekyllDataEnd = {
+      jekyllDataEnd = {%  \linelabel{cmd-call:istqb_load_language:begin} %
         \istqb_load_language:V
           \g_istqb_language_tl
-      },
+      },%  \linelabel{cmd-call:istqb_load_language:end} %
     },
   }% \linelabel{snippet:metadata:end} %
+\cs_new:Nn%  \linelabel{cmd-def:istqb_load_language:begin} %
+  \istqb_load_language:n
+  {
+    \markdownInput
+      [ snippet = istqb / common / language ]
+      { istqb_product_base/languages/#1.yml }
+  }
+\cs_generate_variant:Nn
+  \istqb_load_language:n
+  { V }%  \linelabel{cmd-def:istqb_load_language:end} %
+
 \seq_new:N \g_istqb_third_parties_seq% \linelabel{snippet:metadata/provided-by:begin} %
 \markdownSetupSnippet
   { metadata / provided-by }

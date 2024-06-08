@@ -70,7 +70,7 @@ In July 2023, I began working with the International Software Testing Qualificat
 \begin{figure*}
 \centering
 \includegraphics[width=\linewidth]{images/class-diagram}
-\caption{A class diagram of the six Markdown themes that I developed for the International Software Testing Qualifications Board (\acro{ISTQB}). The snippets \texttt{language}, \texttt{metadata}, \texttt{questions}, \texttt{answer-key}, and \texttt{answers} specify the public interface of the themes and arrows specify inheritance.}
+\caption{A class diagram of the six Markdown themes that I developed for the International Software Testing Qualifications Board (\acro{ISTQB}). The snippets \texttt{metadata}, \texttt{language}, \texttt{questions}, \texttt{answer-key}, and \texttt{answers} specify the public interface of the themes and arrows specify inheritance.}
 \label{fig:class-diagram}
 \end{figure*}
 
@@ -97,9 +97,9 @@ The Markdown themes are named \texttt{istqb/*} and stored in files \texttt{templ
 \end{tikzpicture}%
 \vspace{-0.65mm}
 
-\section{Processing \acro{YAML} content}
+\section{Processing \acro{YAML}}
 \label{sec:yaml}
-The themes define snippets \texttt{metadata}, \texttt{language}, and \texttt{questions} for processing \acro{YAML} files with document metadata, language definitions, and question definitions, respectively.
+The themes define snippets \texttt{metadata}, \texttt{language}, and \texttt{questions} for processing \acro{YAML} files with document metadata, language definitions, and question definitions, respectively. In the following three subsections, I discuss each snippet in detail.
 
 \subsection{Document metadata}
 Here is an example \acro{ISTQB} Syllabus document that loads document metadata from a \acro{YAML} file named \texttt{metadata.yml} and typesets a landing page:
@@ -111,6 +111,7 @@ Here is an example \acro{ISTQB} Syllabus document that loads document metadata f
 
 \noindent
 Here is an example of the \acro{YAML} file \texttt{metadata.yml}:
+
 \inputminted{yaml}{examples/metadata.yml}
 
 Typesetting the example \acro{ISTQB} Syllabus document produces the following landing page:
@@ -119,11 +120,11 @@ Typesetting the example \acro{ISTQB} Syllabus document produces the following la
 \begingroup
 \centering
 \setlength{\fboxsep}{0pt}%
-\fbox{\includegraphics[width=.775\linewidth, trim={15mm 30mm 15mm 40mm}, clip]{examples/landing-page}}%
+\fbox{\includegraphics[width=.7\linewidth, trim={15mm 30mm 15mm 40mm}, clip]{examples/landing-page}}%
 \par
 \endgroup
 
-The snippet \texttt{metadata} processes \acro{YAML} content. It is defined in the theme \texttt{istqb/common} as follows:
+The snippet \texttt{metadata} is defined in the theme \texttt{istqb/common} as follows:
 
 \showimplementation{examples/landing-page.sty}
 
@@ -134,9 +135,11 @@ On lines \ref{line:snippet:metadata:begin}--\ref{line:snippet:metadata:end}, we 
 \item Pass unstructured metadata fields to the key--value \texttt{istqb/metadata}.
 \item Pass the metadata field \texttt{provided-by} to a snippet \texttt{metadata/provided-by}.
 \end{enumerate}
-After processing the \acro{YAML} content, the snippet loads language definitions, which we will discuss in more detail in the following section.
+On lines \ref{line:cmd-call:istqb_load_language:begin}--\ref{line:cmd-call:istqb_load_language:end} and \ref{line:cmd-def:istqb_load_language:begin}--\ref{line:cmd-def:istqb_load_language:end}, after we have processed document metadata, we pass the value of the metadata field \texttt{language} to a snippet of the same name. This snippet processes language definitions, which we will discuss in more detail in the following section.
 
-On lines \ref{line:snippet:metadata/provided-by:begin}--\ref{line:snippet:metadata/provided-by:end}, we define the snippet \texttt{metadata\discretionary{/}{}{/}provided-by}, which processes the metadata field of the same name as follows:
+Notice the modular design of the processing logic, which separates snippets that define the processing of \acro{YAML} elements from expl3 key--values that store metadata. Besides improving code clarity, this separation makes it straightforward to integrate a \TeX{} key--value interface for specifying metadata. This can be particularly useful in hybrid templates, which aim to support both \TeX{} and \acro{YAML} input.
+
+On lines \ref{line:snippet:metadata/provided-by:begin}--\ref{line:snippet:metadata/provided-by:end}, we define the snippet \texttt{metadata\discretionary{/}{}{/}provided-by}, which processes the metadata field \texttt{provided-by} as follows:
 \begin{enumerate}
 \item Store short-hand third-party definitions, such as \mintinline{yaml}"- Hungarian testing board" from the example \acro{YAML} file, in an expl3 sequence variable \verb"\g_istqb_third_parties_seq".
 \item Pass verbose third-party definitions, such as the following one from the example \acro{YAML} file, to a snippet \texttt{metadata/provided-by/verbose}:
@@ -153,9 +156,19 @@ On lines \ref{line:keys:istqb/metadata/provided-by:begin}--\ref{line:keys:istqb/
 On lines \ref{line:snippet:metadata/provided-by/verbose:begin}--\ref{line:snippet:metadata/provided-by/verbose:end}, we define snippet \texttt{metadata\discretionary{/}{}{/}provided-by/verbose}, which passes names and logos from verbose third-party definitions to the key--value \texttt{istqb/metadata/provided-by}. After processing a single definition, the name is stored in the variable \verb"\g_istqb_third_parties_seq". If the filename of a logo is also specified, it is stored in an expl3 dict variable \verb"\g_istqb_third_party_logos_prop".
 
 \subsection{Language definitions}
+Here is the \acro{YAML} file \texttt{en.yml}, which contains the language definitions for English \acro{ISTQB} documents:
+
+\inputminted{yaml}{examples/en.yml}
+
+The snippet \texttt{language} is defined in the theme \texttt{istqb/common} as follows:
+
+\showimplementation{examples/language-definitions.sty}
+
+% TODO: Discuss the implementation.
+
 \subsection{Question definitions}
 
-\section{Typesetting Markdown content}
+\section{Typesetting \acro{YAML} and Markdown}
 \label{sec:markdown}
 \subsection{Landing page}
 The command \verb"\istqblandingpage" in the example \acro{ISTQB} Syllabus document on page~\pageref{listing:landing-page.tex} typesets the landing page shown on the same page. Since the majority of the implementation involves text formatting and is not particularly noteworthy, we will concentrate on the bottom part of the landing page that lists the names and logos of third-party organizations:
