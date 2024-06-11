@@ -27,13 +27,13 @@
           { istqb / metadata }
           { { #1 } = { #2 } }
       },
-      jekyllDataSequenceBegin = {
+      jekyllDataSequenceBegin = {% \linelabel{pattern:first:begin} %
         \str_case:nn
           { #1 }
           {
             { provided-by } {
               % A third-party organization
-              \markdownSetup {% \linelabel{pattern:first:begin} %
+              \markdownSetup {
                 code = \group_begin:,
                 renderers = {
                   jekyllDataSequenceEnd =
@@ -44,17 +44,17 @@
                   jekyllDataSequenceEnd +=
                     \group_end:
                 },
-              }% \linelabel{pattern:first:end} %
+              }
             }
           }
-      },
-      jekyllDataEnd = {%  \linelabel{cmd-call:istqb_load_language:begin} %
+      },% \linelabel{pattern:first:end} %
+      jekyllDataEnd = {% \linelabel{cmd-call:istqb_load_language:begin} %
         \istqb_load_language:V
           \g_istqb_language_tl
-      },%  \linelabel{cmd-call:istqb_load_language:end} %
+      },% \linelabel{cmd-call:istqb_load_language:end} %
     },
   }% \linelabel{snippet:metadata:end} %
-\cs_new:Nn%  \linelabel{cmd-def:istqb_load_language:begin} %
+\cs_new:Nn% \linelabel{cmd-def:istqb_load_language:begin} %
   \istqb_load_language:n
   {
     \markdownInput
@@ -63,7 +63,7 @@
   }
 \cs_generate_variant:Nn
   \istqb_load_language:n
-  { V }%  \linelabel{cmd-def:istqb_load_language:end} %
+  { V }% \linelabel{cmd-def:istqb_load_language:end} %
 
 \seq_new:N \g_istqb_third_parties_seq% \linelabel{snippet:metadata/provided-by:begin} %
 \markdownSetupSnippet
@@ -76,9 +76,9 @@
           \g_istqb_third_parties_seq
           { #2 }
       },
-      jekyllDataMappingBegin = {
+      jekyllDataMappingBegin = {% \linelabel{pattern:second:begin} %
         % Verbose definition
-        \markdownSetup {% \linelabel{pattern:second:begin} %
+        \markdownSetup {
           code = \group_begin:,
           renderers = {
             jekyllDataMappingEnd =
@@ -90,8 +90,8 @@
             jekyllDataMappingEnd +=
               \group_end:
           },
-        }% \linelabel{pattern:second:end} %
-      },
+        }
+      },% \linelabel{pattern:second:end} %
     },
   }% \linelabel{snippet:metadata/provided-by:end} %
 

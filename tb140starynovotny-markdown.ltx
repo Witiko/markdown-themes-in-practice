@@ -26,6 +26,8 @@
   \oldshowimplementation{#1}%
   \endgroup
 }
+\def\lineref#1{\ref{line:#1}}
+\def\linesref#1{\lineref{#1:begin}--\lineref{#1:end}}
 \def\verb{\mintinline{text}}
 \usepackage{tikz}
 \usetikzlibrary{positioning}
@@ -121,6 +123,8 @@ Typesetting the example \acro{ISTQB} Syllabus document produces the following la
 \centering
 \setlength{\fboxsep}{0pt}%
 \fbox{\includegraphics[width=.7\linewidth, trim={15mm 30mm 15mm 40mm}, clip]{examples/landing-page}}%
+\phantomsection
+\label{fig:landing-page}
 \par
 \endgroup
 
@@ -128,18 +132,18 @@ The snippet \texttt{metadata} is defined in the theme \texttt{istqb/common} as f
 
 \showimplementation{examples/landing-page.sty}
 
-On lines \ref{line:keys:istqb/metadata:begin}--\ref{line:keys:istqb/metadata:end}, we define an expl3 key--value \texttt{istqb/metadata} that stores the values of unstructured metadata fields in global expl3 variables.
+On lines \linesref{keys:istqb/metadata}, we define an expl3 key--value \texttt{istqb/metadata} that stores the values of unstructured metadata fields in global expl3 variables.
 
-On lines \ref{line:snippet:metadata:begin}--\ref{line:snippet:metadata:end}, we define a snippet \texttt{metadata}, which processes \acro{YAML} content as follows:
+On lines \linesref{snippet:metadata}, we define the snippet \texttt{metadata}, which processes \acro{YAML} content as follows:
 \begin{enumerate}
 \item Pass unstructured metadata fields to the key--value \texttt{istqb/metadata}.
 \item Pass the metadata field \texttt{provided-by} to a snippet \texttt{metadata/provided-by}.
 \end{enumerate}
-On lines \ref{line:cmd-call:istqb_load_language:begin}--\ref{line:cmd-call:istqb_load_language:end} and \ref{line:cmd-def:istqb_load_language:begin}--\ref{line:cmd-def:istqb_load_language:end}, after we have processed document metadata, we pass the value of the metadata field \texttt{language} to a snippet of the same name. This snippet processes language definitions, which we will discuss in more detail in the following section.
+On lines \linesref{cmd-call:istqb_load_language} and \linesref{cmd-def:istqb_load_language}, after we have processed document metadata, we pass the value of the metadata field \texttt{language} to a snippet of the same name. This snippet processes language definitions, which we will discuss in more detail in the following section.
 
 Notice the modular design of the processing logic, which separates snippets that define the processing of \acro{YAML} elements from expl3 key--values that store metadata. Besides improving code clarity, this separation makes it straightforward to integrate a \TeX{} key--value interface for specifying metadata. This can be particularly useful in hybrid templates, which aim to support both \TeX{} and \acro{YAML} input.
 
-On lines \ref{line:snippet:metadata/provided-by:begin}--\ref{line:snippet:metadata/provided-by:end}, we define the snippet \texttt{metadata\discretionary{/}{}{/}provided-by}, which processes the metadata field \texttt{provided-by} as follows:
+On lines \linesref{snippet:metadata/provided-by}, we define the snippet \texttt{metadata\discretionary{/}{}{/}provided-by}, which processes the metadata field \texttt{provided-by} as follows:
 \begin{enumerate}
 \item Store short-hand third-party definitions, such as \mintinline{yaml}"- Hungarian testing board" from the example \acro{YAML} file, in an expl3 sequence variable \verb"\g_istqb_third_parties_seq".
 \item Pass verbose third-party definitions, such as the following one from the example \acro{YAML} file, to a snippet \texttt{metadata/provided-by/verbose}:
@@ -149,11 +153,15 @@ On lines \ref{line:snippet:metadata/provided-by:begin}--\ref{line:snippet:metada
 \end{minted}
 \end{enumerate}
 
-Notice the design pattern on lines \ref{line:pattern:first:begin}--\ref{line:pattern:first:end} and \ref{line:pattern:second:begin}--\ref{line:pattern:second:end} that applies a snippet to a part of the \acro{YAML} content. First, \verb"code = \group_begin:" opens a \TeX{} group. Then, \verb"renderers = {" \meta{element}\verb"End = }" locally empties the renderer command that is placed to the output stream at the end of the current \acro{YAML} \meta{element}. Next, \verb"snippet =" \meta{snippet} locally applies the definitions from \meta{snippet}. Finally, \verb"renderers = {" \meta{element}\verb"End += \group_end: }" closes the \TeX{} group at the end of the current \acro{YAML} \meta{element}.
+Notice the design pattern on lines \linesref{pattern:first} and \linesref{pattern:second} that locally applies a \meta{snippet} to an \meta{element}.\footnote{Such design patterns can be repetitive and difficult to understand without additional comments in the code. Markdown Enhancement Proposal (\acro{MEP}) 445~\cite{starynovotny2024parametric} envisions support for higher-order snippets that would make it possible to hide such design patterns behind easy-to-read shorthands.} This pattern redefines the renderer \meta{element}\verb"Begin", which is placed to the output when the \meta{element} starts, as follows:
+\begin{enumerate}
+\item Open a \TeX{} group and apply the \meta{snippet}.
+\item Redefine the renderer \meta{element}\verb"End", which is placed to the output when the \meta{element} ends, so that it closes the \TeX{} group.
+\end{enumerate}
 
-On lines \ref{line:keys:istqb/metadata/provided-by:begin}--\ref{line:keys:istqb/metadata/provided-by:end}, we define an expl3 key--value \textls[-12]{\texttt{istqb/metadata/provided-by}} that stores the names and logos from verbose third-party definitions in local expl3 variables.
+On lines \linesref{keys:istqb/metadata/provided-by}, we define an expl3 key--value \textls[-12]{\texttt{istqb/metadata/provided-by}} that stores the names and logos from verbose third-party definitions in local expl3 variables.
 
-On lines \ref{line:snippet:metadata/provided-by/verbose:begin}--\ref{line:snippet:metadata/provided-by/verbose:end}, we define snippet \texttt{metadata\discretionary{/}{}{/}provided-by/verbose}, which passes names and logos from verbose third-party definitions to the key--value \texttt{istqb/metadata/provided-by}. After processing a single definition, the name is stored in the variable \verb"\g_istqb_third_parties_seq". If the filename of a logo is also specified, it is stored in an expl3 dict variable \verb"\g_istqb_third_party_logos_prop".
+On lines \linesref{snippet:metadata/provided-by/verbose}, we define snippet \texttt{metadata\discretionary{/}{}{/}provided-by/verbose}, which passes names and logos from verbose third-party definitions to the key--value \texttt{istqb/metadata/provided-by}. After processing a single definition, the name is stored in the variable \verb"\g_istqb_third_parties_seq". If the filename of a logo is also specified, it is stored in an expl3 dict variable \verb"\g_istqb_third_party_logos_prop".
 
 \subsection{Language definitions}
 Here is the \acro{YAML} file \texttt{en.yml}, which contains the language definitions for English \acro{ISTQB} documents:
@@ -164,13 +172,25 @@ The snippet \texttt{language} is defined in the theme \texttt{istqb/common} as f
 
 \showimplementation{examples/language-definitions.sty}
 
-% TODO: Discuss the implementation.
+On lines \linesref{keys:istqb/language}, we define an expl3 key--value \texttt{istqb/language} that processes the fields from the language definitions as follows:
+\begin{enumerate}
+\item Load and set up internationalization using the babel package on lines \lineref{usepackage:babel} and \linesref{cmd-call:selectlanguage}.
+\item Store the values of the fields in global expl3 variables and other non-expl3 control sequences.
+\end{enumerate}
+To elaborate on the second point, here are some examples of how we store the values of the fields from the language definitions:
+\begin{itemize}
+\item On lines \linesref{keys:istqb/language/provided-by}, we store the values under the field \texttt{provided-by} with the singular and plural forms of ``Provided by''. These forms appear at the bottom of the landing page shown on page \pageref{fig:landing-page}, see also the implementation in Section~\ref{sec:landing-page}.
+\item On lines \linesref{keys:istqb/language/list-delimiters}, we store the values under the field \texttt{list-delimiters} with delimiters such as ``and'', ``,'', and ``, and'', which also appear at the bottom of the landing page. Notice the use of the function \verb"\__istqb_gset_with_spaces:Nn", which adds spaces around the delimiters unless they start with a comma. In that case, only one space after the delimiter is added.
+\item On lines \linesref{keys:istqb/language/reference-labels}, we store the values under the field \texttt{reference-labels} with labels for different object types such as ``Section'', ``Figure'', and ``Table'' used in cross-references. See also the implementation of cross-references in Section~\ref{sec:cross-references}.
+\end{itemize}
+
+On lines \linesref{snippet:language}, we define the snippet \texttt{language}, which passes all fields from the language definitions to the key--value \texttt{istqb/language}. This is a simpler design compared to document metadata, which is made possible by the lack of variable-length \acro{YAML} sequences in language definitions.
 
 \subsection{Question definitions}
 
 \section{Typesetting \acro{YAML} and Markdown}
-\label{sec:markdown}
 \subsection{Landing page}
+\label{sec:landing-page}
 The command \verb"\istqblandingpage" in the example \acro{ISTQB} Syllabus document on page~\pageref{listing:landing-page.tex} typesets the landing page shown on the same page. Since the majority of the implementation involves text formatting and is not particularly noteworthy, we will concentrate on the bottom part of the landing page that lists the names and logos of third-party organizations:
 
 \showimplementation{examples/landing-page.cls}
@@ -191,6 +211,7 @@ The command \verb"\istqblandingpage" in the example \acro{ISTQB} Syllabus docume
 % [@istqb2024example, Section 1.11]
 % [@istqb2024productbase, Issue #51]
 \subsection{Cross-references}
+\label{sec:cross-references}
 % [@istqb2024example, sections 1.8--1.10]
 \subsection{Citations}
 % [@istqb2024example, Section 1.12]

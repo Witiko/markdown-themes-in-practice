@@ -1,10 +1,10 @@
-\usepackage [ shorthands = off ] { babel }
+\usepackage [ shorthands = off ] { babel }% \linelabel{usepackage:babel} \linelabel{keys:istqb/language:begin} %
 \keys_define:nn
   { istqb / language }
   {
-    babel-language .code:n = {
+    babel-language .code:n = {% \linelabel{cmd-call:selectlanguage:begin} %
       \selectlanguage { #1 }
-    },
+    },% \linelabel{cmd-call:selectlanguage:end} %
     appendix .tl_gset:N = \istqbappendixname,
     references .tl_gset:N = \istqbrefname,
     further-reading .tl_gset:N =
@@ -26,20 +26,18 @@
 \keys_define:nn
   { istqb / language / page }
   {
-    1 .tl_gset:N =
-      \istqbpagename,
-    2 .tl_gset:N =
-      \istqboutofname,
+    1 .tl_gset:N = \istqbpagename,
+    2 .tl_gset:N = \istqboutofname,
   }
-\keys_define:nn
+\keys_define:nn% \linelabel{keys:istqb/language/provided-by:begin} %
   { istqb / language / provided-by }
   {
     1 .tl_gset:N =
       \istqbprovidedbysingularname,
     2 .tl_gset:N =
       \istqbprovidedbypluralname,
-  }
-\cs_new:Nn
+  }% \linelabel{keys:istqb/language/provided-by:end} %
+\cs_new:Nn% \linelabel{keys:istqb/language/list-delimiters:begin} %
   \__istqb_gset_with_spaces:Nn
   {
     \tl_gset:Nn
@@ -64,19 +62,17 @@
       \__istqb_gset_with_spaces:Nn
         \g_istqb_list_delimiter_two
         { #1 }
-    },
-    2 .code:n = {
+    }, 2 .code:n = {
       \__istqb_gset_with_spaces:Nn
         \g_istqb_list_delimiter_many
         { #1 }
-    },
-    3 .code:n = {
+    }, 3 .code:n = {
       \__istqb_gset_with_spaces:Nn
         \g_istqb_list_delimiter_last
         { #1 }
     },
-  }
-\prop_new:N \g_istqb_reference_labels_prop
+  }% \linelabel{keys:istqb/language/list-delimiters:end} %
+\prop_new:N \g_istqb_reference_labels_prop% \linelabel{keys:istqb/language/reference-labels:begin} %
 \keys_define:nn
   { istqb / language / reference-labels }
   {
@@ -86,9 +82,8 @@
         \l_keys_key_str
         { #1 }
     },
-  }
-
-\tl_new:N \l_istqb_language_position
+  }% \linelabel{keys:istqb/language:end} \linelabel{keys:istqb/language/reference-labels:end} %
+\tl_new:N \l_istqb_language_position% \linelabel{snippet:language:begin} %
 \markdownSetupSnippet
   { language }
   {
@@ -106,9 +101,8 @@
               { #1 / }
           }
       },
-      jekyllData(Sequence|Mapping)End = {
-        \group_end:
-      },
+      jekyllData(Sequence|Mapping)End =
+        \group_end:,
       jekyllDataString = {
         \tl_set:Nx
           \l_tmpa_tl
@@ -123,4 +117,4 @@
       },
       jekyllDataEnd = ,
     },
-  }
+  }% \linelabel{snippet:language:end} %
