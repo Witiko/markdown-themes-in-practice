@@ -42,7 +42,8 @@ questions:
       Which two of the following animals
       are classified as mammals?
     answers: { a: Shark, b: Dolphin,
-      c: Eagle, d: Whale, e: Crocodile }
+               c: Eagle, d: Whale,
+               e: Crocodile }
     correct: [b, d]
     explanation: >
       Dolphins and whales are classified
