@@ -1,0 +1,52 @@
+duration: [10, 15]  # minutes
+num-questions: 3
+max-score: 4
+pass-score: 50  # percent
+questions:
+  1:
+    learning-objective: 1.2.3
+    k-level: K1
+    number-of-points: 1
+    question: >
+      What is the answer to life,
+      the universe, and everything?
+    answers: {a: 24, b: 42, c: 64, d: 84}
+    correct: b
+    explanation: >
+      The answer to life, the universe,
+      and everything is a concept from
+      Douglas Adams’ science fiction
+      series “The Hitchhiker’s Guide to
+      the Galaxy”, where the supercomputer
+      Deep Thought gives the answer as 42.
+  5:
+    learning-objective: 4.5.6
+    k-level: K2
+    number-of-points: 1
+    question: >
+      What is the capital of France?
+    answers:
+      a: Berlin
+      b: Madrid
+      c: Paris
+      d: Rome
+    correct: c
+    explanation: >
+      The capital of France is Paris,
+      known for art, fashion, and culture.
+  6:
+    learning-objective: 7.8.9
+    k-level: K3
+    number-of-points: 2
+    question: >
+      Which two of the following animals
+      are classified as mammals?
+    answers: { a: Shark, b: Dolphin,
+      c: Eagle, d: Whale, e: Crocodile }
+    correct: [b, d]
+    explanation: >
+      Dolphins and whales are classified
+      as mammals because they are
+      warm-blooded, have lungs for
+      breathing air, and nurse their
+      young with milk.

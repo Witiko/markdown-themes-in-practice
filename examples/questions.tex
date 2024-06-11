@@ -1,0 +1,12 @@
+\documentclass{istqb}
+\usepackage{markdown}
+\markdownSetup{
+  import = {
+    istqb/sample-exam/questions = {
+      questions as ask,
+    }
+  }
+}
+\begin{document}
+\markdownInput[snippet=ask]{questions.yml}
+\end{document}
