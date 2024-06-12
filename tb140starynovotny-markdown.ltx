@@ -11,6 +11,7 @@
 \newmintedfile[showimplementation]{tex}{
   fontsize=\small,
   linenos,
+  firstnumber=last,
   xleftmargin=0.5\parindent,
   escapeinside=\%\%,
 }
@@ -146,23 +147,38 @@ In this section, I show how the themes \texttt{istqb\slash sample\-exam\slash qu
 \subsection{Processing question definitions}
 Both the snippet \texttt{questions} from the theme \texttt{istqb\slash sample-exam\slash questions} and the snippet \texttt{answers} from the theme \texttt{\slash answers} process question definitions before typesetting them. To do this, they use the snippet \texttt{questions} from their parent theme \texttt{istqb\slash sample-exam}, which is defined as follows:
 
-\showimplementation{examples/sample-exam.sty}
+\showimplementation{examples/questions.sty}
 
 % TODO: Discuss the implementation.
 
 \subsection{Typesetting questions}
 % TODO
 
+\showimplementation{examples/questions/questions.sty}
+
+% TODO: Discuss the implementation.
+
 \subsection{Typesetting answer key}
 % TODO
+
+\showimplementation{examples/answers/answer-key.sty}
+
+% TODO: Discuss the implementation.
 
 \subsection{Typesetting answers}
 % TODO
 
+\showimplementation{examples/answers/answers.sty}
+
+% TODO: Discuss the implementation.
+
 \section*{Conclusion}
 % TODO
 
-\SetBibJustification{\raggedright \advance\itemsep by 2pt plus1pt minus1pt }
+\section*{Acknowledgements}
+% TODO
+
+\SetBibJustification{\raggedright \advance\itemsep by 2pt plus1pt minus1pt}
 \bibliographystyle{tugboat}
 \begingroup
 \gappto{\UrlBreaks}{\UrlOrds}

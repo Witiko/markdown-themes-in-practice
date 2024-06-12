@@ -1,0 +1,116 @@
+\markdownSetup
+  { import = istqb / sample-exam }
+\tl_new:N
+  \l_istqb_question_tl
+\markdownSetupSnippet
+  { questions }
+  {
+    snippet = istqb / sample-exam
+      / questions,
+    renderers = {
+      jekyllDataEnd = {
+        \seq_map_inline:Nn
+          \g_istqb_questions_seq
+          {
+            \tl_set:Nn
+              \l_istqb_question_tl
+              {
+                \tl_set:Nn
+                  \l_tmpa_tl
+                  { Question~\# ##1~( }
+                \prop_get:cnN
+                  { g_istqb_question_number
+                    _of_points_prop }
+                  { ##1 }
+                  \l_tmpb_tl
+                \tl_put_right:NV
+                  \l_tmpa_tl
+                  \l_tmpb_tl
+                \tl_put_right:Nn
+                  \l_tmpa_tl
+                  { ~Point }
+                \int_compare:VNnF
+                  \l_tmpb_tl = { 1 }
+                  {
+                    \tl_put_right:Nn
+                      \l_tmpa_tl
+                      { s }
+                  }
+                \tl_put_right:Nn
+                  \l_tmpa_tl
+                  { ) }
+                \exp_args:NNV
+                  \subsection *
+                  \l_tmpa_tl
+                \exp_args:NVV
+                  \markboth
+                  \l_tmpa_tl
+                  \l_tmpa_tl
+                \exp_args:NnnV
+                  \addcontentsline
+                  { toc }
+                  { subsection }
+                  \l_tmpa_tl
+                \prop_item:Nn
+                  \g_istqb_question_text_prop
+                  { ##1 }
+                \prop_get:NnN
+                  \g_istqb_answer_keys_prop
+                  { ##1 }
+                  \l_tmpa_clist
+                \begin { enumerate }
+                \clist_map_inline:Nn
+                  \l_tmpa_clist
+                  {
+                    \item [ ####1 ) ]
+                      \prop_item:Nn
+                        \g_istqb_answers_prop
+                        { ##1 / ####1 }
+                  }
+                \end { enumerate }
+                \medskip
+                \prop_get:cnN
+                  { g_istqb_answer_correct
+                    _keys_prop }
+                  { ##1 }
+                  \l_tmpa_clist
+                \int_set:Nn
+                  \l_tmpa_int
+                  {
+                    \clist_count:N
+                      \l_tmpa_clist
+                  }
+                Select~\int_case:nnF
+                  { \l_tmpa_int }
+                  {
+                    { 1 } { ONE }
+                    { 2 } { TWO }
+                    { 3 } { THREE }
+                    { 4 } { FOUR }
+                    { 5 } { FIVE }
+                  }
+                  {
+                    \int_use:N
+                      \l_tmpa_int
+                  }~option
+                  \int_compare:VNnF
+                  \l_tmpa_int = { 1 }
+                  { s }.
+              }
+            \vbox_set:NV
+              \l_tmpa_box
+              \l_istqb_question_tl
+            \dim_compare:nNnTF
+              { \box_ht:N \l_tmpa_box }
+              >
+              { 0.3 \paperheight }
+              {
+                \tl_use:N
+                  \l_istqb_question_tl
+              }
+              { \box_use:N \l_tmpa_box }
+            \par
+          }
+      },
+    },
+  }

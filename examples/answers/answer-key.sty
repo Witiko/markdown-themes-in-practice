@@ -1,0 +1,128 @@
+\markdownSetup
+  { import = istqb / sample-exam }
+\RequirePackage
+  { multicol }
+\RequirePackage
+  { supertabular }
+\RequirePackage
+  { array }
+\newcolumntype
+  { C }
+  [ 1 ]
+  { >{ \centering\arraybackslash } p { #1 } }
+\markdownSetupSnippet
+  { answer-key }
+  {
+    snippet = istqb / sample-exam
+      / questions,
+    renderers = {
+      jekyllDataEnd = {
+        \group_begin:
+        \tablehead
+          {
+            \hline
+            \textbf
+              { Question~Number~(\#) } &
+            \textbf
+              { Correct~Answer } &
+            \textbf
+              { Learning~Objective~(LO) } &
+            \textbf
+              { K-Level } &
+            \textbf
+              { Number~of~Points } \\
+          }
+        \tabletail { \hline }
+        \tablelasttail { \hline }
+        \tl_set:Nn
+          \l_tmpa_tl
+          {
+            \begin
+              { supertabular }
+              { | C { 1.9cm } | C { 1.5cm }
+                | C { 2.4cm } | C { 1.4cm }
+                | C { 1.9cm } | }
+          }
+        \seq_map_inline:Nn
+          \g_istqb_questions_seq
+          {
+            \tl_put_right:Nn
+              \l_tmpa_tl
+              { \hline }
+            \tl_put_right:Nn
+              \l_tmpa_tl
+              { \textbf { ##1 } & }
+            \prop_get:cnN
+              { g_istqb_answer_correct
+                _keys_prop }
+              { ##1 }
+              \l_tmpa_clist
+            \tl_put_right:Ne
+              \l_tmpa_tl
+              {
+                \clist_use:Nn
+                  \l_tmpa_clist
+                  { ,~ } &
+              }
+            \tl_put_right:NV
+              \l_tmpa_tl
+              \g_istqb_prefix_tl
+            \tl_put_right:Nn
+              \l_tmpa_tl
+              { - }
+            \prop_get:cnN
+              { g_istqb_question_learning
+                _objective_prop }
+              { ##1 }
+              \l_tmpb_tl
+            \tl_put_right:NV
+              \l_tmpa_tl
+              \l_tmpb_tl
+            \tl_put_right:Nn
+              \l_tmpa_tl
+              { & }
+            \prop_get:NnN
+              \g_istqb_question_k_level_prop
+              { ##1 }
+              \l_tmpb_tl
+            \tl_put_right:NV
+              \l_tmpa_tl
+              \l_tmpb_tl
+            \tl_put_right:Nn
+              \l_tmpa_tl
+              { & }
+            \prop_get:cnN
+              { g_istqb_question_number
+                _of_points_prop }
+              { ##1 }
+              \l_tmpb_tl
+            \tl_put_right:NV
+              \l_tmpa_tl
+              \l_tmpb_tl
+            \tl_put_right:Nn
+              \l_tmpa_tl
+              { \\ }
+          }
+        \tl_put_right:Nn
+          \l_tmpa_tl
+          {
+            \end { supertabular }
+          }
+        \begin { multicols } { 2 }
+        \cs_set:Npn
+          \newpage
+          {
+            \if@firstcolumn
+              \hrule width
+                \linewidth height0pt
+              \columnbreak
+              \advance \@colroom \@colroom
+            \fi
+          }
+        \tl_use:N
+          \l_tmpa_tl
+        \end { multicols }
+        \group_end:
+      },
+    },
+  }
