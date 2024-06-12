@@ -1,0 +1,30 @@
+\centering
+\scalebox{1.1}{%
+\setlength{\fboxsep}{0pt}%
+\setlength{\fboxrule}{0.5pt}%
+\begin{minipage}{0.375\linewidth}%
+\scalebox{0.9}{%
+\begin{tikzpicture}[remember picture, overlay]
+\tikzstyle{circled} = [circle, draw, minimum size = 1.75em]
+\node[circled] at (6.35, 0.5) {a};
+\end{tikzpicture}%
+}%
+\fbox{\includegraphics[width=\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax, trim={20mm 51.5mm 20mm 38.5mm}, clip]{examples/questions}}%
+\end{minipage}\hspace{\smallskipamount}%
+\begin{minipage}{0.525\linewidth}%
+\scalebox{0.9}{%
+\begin{tikzpicture}[remember picture, overlay]
+\tikzstyle{circled} = [circle, draw, minimum size = 1.75em]
+\node[circled] at (9.075, 0.5) {b};
+\end{tikzpicture}%
+}%
+\fbox{\includegraphics[width=\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax, trim={20mm 101.7mm 20mm 38.7mm}, clip, page=1]{examples/answer-key-and-answers}}\smallskip\par
+\scalebox{0.9}{%
+\begin{tikzpicture}[remember picture, overlay]
+\tikzstyle{circled} = [circle, draw, minimum size = 1.75em]
+\node[circled] at (9.075, 0.5) {c};
+\end{tikzpicture}%
+}%
+\fbox{\includegraphics[width=\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax, trim={20mm 73.7mm 20mm 38.7mm}, clip, page=2]{examples/answer-key-and-answers}}%
+\end{minipage}%
+}%

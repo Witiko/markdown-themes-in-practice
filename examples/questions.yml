@@ -18,18 +18,14 @@ questions:
       Douglas Adams’ science fiction
       series “The Hitchhiker’s Guide to
       the Galaxy”, where the supercomputer
-      Deep Thought gives the answer as 42.
+      Deep Thought gives the answer 42.
   5:
     learning-objective: 4.5.6
     k-level: K2
     number-of-points: 1
-    question: >
-      What is the capital of France?
-    answers:
-      a: Berlin
-      b: Madrid
-      c: Paris
-      d: Rome
+    question: What’s France’s capital?
+    answers: {a: Berlin, b: Madrid,
+              c: Paris, d: Rome}
     correct: c
     explanation: >
       The capital of France is Paris,
@@ -41,13 +37,12 @@ questions:
     question: >
       Which two of the following animals
       are classified as mammals?
-    answers: { a: Shark, b: Dolphin,
-               c: Eagle, d: Whale,
-               e: Crocodile }
+    answers: {a: Shark, b: Dolphin,
+              c: Eagle, d: Whale,
+              e: Crocodile}
     correct: [b, d]
     explanation: >
       Dolphins and whales are classified
       as mammals because they are
-      warm-blooded, have lungs for
-      breathing air, and nurse their
-      young with milk.
+      warm-blooded, breathe with lungs,
+      and feed their young milk.

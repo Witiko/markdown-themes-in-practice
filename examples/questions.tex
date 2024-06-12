@@ -2,11 +2,11 @@
 \usepackage{markdown}
 \markdownSetup {
   import = {
-    istqb/sample-exam/questions = {
-      questions as ask
-    }
+    istqb/sample-exam/questions =
+      questions as qst
   }
 }
 \begin{document}
-\markdownInput[snippet=ask]{questions.yml}
+\istqbunnumberedsection{Questions}
+\markdownInput[snippet=qst]{questions.yml}
 \end{document}

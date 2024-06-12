@@ -1,0 +1,18 @@
+\documentclass{istqb}
+\usepackage{markdown}
+\markdownSetup {
+  import = {
+    istqb/sample-exam/answers = {
+      answer-key as key,
+      answers as ans,
+    },
+  }
+}
+\begin{document}
+\istqblandscapebegin
+\istqbunnumberedsection{Answer key}
+\markdownInput[snippet=key]{questions.yml}
+\istqbunnumberedsection{Answers}
+\markdownInput[snippet=ans]{questions.yml}
+\istqblandscapeend
+\end{document}
