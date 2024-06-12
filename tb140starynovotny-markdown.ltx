@@ -75,6 +75,10 @@ In July 2023, I began working with the International Software Testing Qualificat
 \includegraphics[width=\linewidth]{images/class-diagram}
 \caption{A class diagram of the six Markdown themes that I developed for the International Software Testing Qualifications Board (\acro{ISTQB}). The snippets \texttt{metadata}, \texttt{language}, \texttt{questions}, \texttt{answer-key}, and \texttt{answers} specify the public interface of the themes and arrows specify inheritance.}
 \label{fig:class-diagram}
+\vspace{1.5cm}
+\input images/question-definitions
+\caption{Three different ways to typeset question definitions in \acro{ISTQB} Sample Exam Questions and Answers documents: a) a list of questions, b) an answer key, and c) a list of answers.}
+\label{fig:question-definitions}
 \end{figure*}
 
 \section*{Project overview}
@@ -106,16 +110,10 @@ As an example of question definitions, I use the following \acro{YAML} file name
 \inputminted{yaml}{examples/questions.yml}
 
 \noindent
-The file specifies three questions. For each question, it provides up to five possible answers, with either one or two being correct, and an explanation of the correct answer(s) for each question.
+The file specifies three questions. For each question, it provides up to five possible answers.
 
 \section{User interface}
 In this section, I show how we can use themes \texttt{istqb\slash sample-exam\slash questions}, and \texttt{\slash answers} to typeset the question definitions from the previous section.
-
-\begin{figure*}
-\input images/question-definitions
-\caption{Three different ways to typeset question definitions in \acro{ISTQB} Sample Exam documents: a) a list of questions, b) an answer key, and c) a list of answers.}
-\label{fig:question-definitions}
-\end{figure*}
 
 \subsection{Typesetting questions}
 As an example of an \acro{ISTQB} Sample Exam Questions document, I use the following \LaTeX{} file:
