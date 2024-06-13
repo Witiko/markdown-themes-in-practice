@@ -1,15 +1,12 @@
-\markdownSetup
-  { import = istqb / sample-exam }
-\RequirePackage
-  { multicol }
-\RequirePackage
-  { supertabular }
-\RequirePackage
-  { array }
+\RequirePackage { multicol }
+\RequirePackage { supertabular }
+\RequirePackage { array }
 \newcolumntype
   { C }
   [ 1 ]
   { >{ \centering\arraybackslash } p { #1 } }
+\markdownSetup
+  { import = istqb / sample-exam }
 \markdownSetupSnippet
   { answer-key }
   {
@@ -17,7 +14,7 @@
       / questions,
     renderers = {
       jekyllDataEnd = {
-        \group_begin:
+        \begin { multicols } { 2 }
         \tablehead
           {
             \hline
@@ -59,8 +56,7 @@
               \l_tmpa_clist
             \tl_put_right:Ne
               \l_tmpa_tl
-              {
-                \clist_use:Nn
+              { \clist_use:Nn
                   \l_tmpa_clist
                   { ,~ } &
               }
@@ -105,24 +101,10 @@
           }
         \tl_put_right:Nn
           \l_tmpa_tl
-          {
-            \end { supertabular }
-          }
-        \begin { multicols } { 2 }
-        \cs_set:Npn
-          \newpage
-          {
-            \if@firstcolumn
-              \hrule width
-                \linewidth height0pt
-              \columnbreak
-              \advance \@colroom \@colroom
-            \fi
-          }
+          { \end { supertabular } }
         \tl_use:N
           \l_tmpa_tl
         \end { multicols }
-        \group_end:
       },
     },
   }

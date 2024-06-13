@@ -16,7 +16,7 @@
   escapeinside=\%\%,
 }
 \let\oldshowimplementation\showimplementation
-\def\showimplementation#1{%
+\def\showimplementation#1#2{%
   \begingroup
   \def\linelabel##1{%
     \phantomsection
@@ -24,10 +24,11 @@
   }%
   \let\textit\textsl
   \let\bfseries\relax
-  \oldshowimplementation{#1}%
+  \oldshowimplementation[#1]{#2}%
   \endgroup
 }
 \def\slash{\discretionary{/}{/}{/}}
+\def\hyphen{\discretionary{-}{-}{-}}
 \def\lineref#1{\ref{line:#1}}
 \def\linesref#1{\lineref{#1:begin}--\lineref{#1:end}}
 \def\verb{\mintinline{text}}
@@ -142,41 +143,348 @@ The file imports the snippet \texttt{answers} from theme \texttt{istqb\slash sam
 \end{enumerate}
 
 \section{Implementation}
-In this section, I show how the themes \texttt{istqb\slash sample\-exam\slash questions}, and \texttt{\slash answers} are implemented.
+In this section, I show how the themes \texttt{istqb\slash sample\hyphen exam\slash questions}, and \texttt{\slash answers} are implemented.
 
 \subsection{Processing question definitions}
-Both the snippet \texttt{questions} from the theme \texttt{istqb\slash sample-exam\slash questions} and the snippet \texttt{answers} from the theme \texttt{\slash answers} process question definitions before typesetting them. To do this, they use the snippet \texttt{questions} from their parent theme \texttt{istqb\slash sample-exam}, which is defined as follows:
+Both the snippet \texttt{questions} from the theme \texttt{istqb\slash sample-exam\slash questions} and the snippet \texttt{answers} from the theme \texttt{\slash answers} process question definitions before typesetting them. For the processing, they use the snippet \texttt{questions} from the theme \texttt{istqb\slash sample-exam}, which I describe in this section.
+\looseness=-1
 
-\showimplementation{examples/questions.sty}
+First, I define a key--value \texttt{istqb\slash questions}:
 
-% TODO: Discuss the implementation.
+\showimplementation
+  {firstnumber=1, firstline=1, lastline=10}
+  {examples/questions.sty}
+
+\noindent
+The key--value stores the values in top-level unstructured fields \texttt{num-questions}, \texttt{max\hyphen score}, and \texttt{pass\hyphen score} from question definitions to variables.
+
+Next, I define a key--value \texttt{istqb\slash questions\slash duration}:
+
+\showimplementation
+  {firstline=11, lastline=18}
+  {examples/questions.sty}
+
+\noindent
+The key--value stores the values in the top-level structured field \texttt{duration} to variables.
+
+Then, I define the snippet \texttt{questions} itself:
+
+\showimplementation
+  {firstline=19, lastline=84}
+  {examples/questions.sty}
+
+\noindent
+The snippet processes question definitions as follows:
+\begin{enumerate}
+\item Define an empty sequence that will store question numbers.
+\item Pass unstructured top-level fields to the key--value \texttt{istqb\slash questions}.
+\item Pass the structured top-level field \texttt{duration} to the key--value \texttt{istqb\slash questions\slash duration}.
+\item Pass the structured top-level field \texttt{questions} to a snippet \texttt{questions/list}.
+\end{enumerate}
+
+Next, I define the snippet \texttt{questions/list}:
+
+\showimplementation
+  {firstline=85, lastline=111}
+  {examples/questions.sty}
+
+\noindent
+The snippet processes each question as follows:
+\begin{enumerate}
+\item Store the current question number.
+\item Pass all fields to a snippet \texttt{questions/*}.
+\end{enumerate}
+
+Then, I define key--value \texttt{istqb\slash questions\slash *}:
+
+\showimplementation
+  {firstline=112, lastline=157}
+  {examples/questions.sty}
+
+\noindent
+The key--value stores the values in unstructured fields \texttt{number\hyphen of\hyphen points}, \texttt{learing\hyphen objective}, \texttt{k\hyphen level}, \texttt{explanation}, and \texttt{question} to dicts. The dicts use the current question number as the key.
+
+Next, I define the snippet \texttt{questions/*}:
+
+\showimplementation
+  {firstline=158, lastline=212}
+  {examples/questions.sty}
+
+\noindent
+The snippet processes question definitions as follows:
+\begin{enumerate}
+\item Pass unstructured fields to the key--value \texttt{istqb\slash questions\slash *}.
+\item Pass the structured field \texttt{correct} to a snippet \texttt{questions\slash *\slash correct}.
+\item Pass the structured field \texttt{answers} to a snippet \texttt{questions\slash *\slash answers}.
+\end{enumerate}
+
+Notice the design pattern on lines \linesref{pattern:01}, \linesref{pattern:02}, and \linesref{pattern:03} that locally applies a \meta{snippet} to an \meta{element}. This pattern redefines the renderer \meta{element}\verb"Begin", which is placed to the output when the \meta{element} starts, as follows:
+\begin{enumerate}
+\item Open a \TeX{} group and apply the \meta{snippet}.
+\item Redefine the renderer \meta{element}\verb"End", which is placed to the output when the \meta{element} ends, so that it closes the \TeX{} group.
+\end{enumerate}
+
+Finally, I define snippets \texttt{questions\slash *\slash answers} and \texttt{\slash correct}:
+
+\showimplementation
+  {firstline=213}
+  {examples/questions.sty}
+
+\noindent
+The snippets accumulate potential and correct answer letters in a sequence, respectively. Then, they store the sequence as a comma-list to a dict that uses the current question number as the key.
+
+Moveover, the snippet \texttt{questions\slash *\slash answers} stores potential answer texts to a dict that uses \meta{current question number}\texttt{\slash}\meta{answer letter} as key.
 
 \subsection{Typesetting questions}
-% TODO
+In this section, I describe the snippet \texttt{questions} from theme \texttt{istqb\slash sample-exam\slash questions}. This snippet typesets the list of questions in Figure~\ref{fig:question-definitions}a.
 
-\showimplementation{examples/questions/questions.sty}
+First, I import the theme \texttt{istqb\slash sample-exam} and I use the snippet \texttt{questions} from this theme to process question definitions:
 
-% TODO: Discuss the implementation.
+\showimplementation
+  {firstnumber=1, lastline=9}
+  {examples/questions/questions.sty}
+
+After the question definitions have been processed, I iterate over all question numbers. For each question number, I define a variable with code that typesets the corresponding question:
+
+\showimplementation
+  {firstline=10, lastline=17}
+  {examples/questions/questions.sty}
+
+\noindent
+First, I add a section heading for the question:
+
+\showimplementation
+  {firstline=18, lastline=53}
+  {examples/questions/questions.sty}
+
+\noindent
+Next, I add the question text and potential answers:
+
+\showimplementation
+  {firstline=54, lastline=70}
+  {examples/questions/questions.sty}
+
+\noindent
+Lastly, I add the text ``Select \meta{number of correct answers} option(s).'':
+
+\showimplementation
+  {firstline=71, lastline=99}
+  {examples/questions/questions.sty}
+
+Finally, I typeset the code from the variable at natural height and store the result to a vertical box:
+
+\showimplementation
+  {firstline=100, lastline=102}
+  {examples/questions/questions.sty}
+
+\noindent
+For short questions, I insert the box to the current list for typesetting to prevent page breaks within the question. For longer questions, I place the content of the variable to the input stream, so that page breaks can occur naturally:
+
+\showimplementation
+  {firstline=103}
+  {examples/questions/questions.sty}
 
 \subsection{Typesetting answer key}
-% TODO
+In this section, I describe the snippet \texttt{answer\hyphen key} from the theme \texttt{istqb\slash sample\hyphen exam\slash answers}. This snippet typesets the answer key in Figure~\ref{fig:question-definitions}b.
 
-\showimplementation{examples/answers/answer-key.sty}
+First, I load packages multicol and supertabular:
 
-% TODO: Discuss the implementation.
+\showimplementation
+  {firstnumber=1, lastline=7}
+  {examples/answers/answer-key.sty}
+
+\noindent
+The packages allow me to typeset the answer key as a table in a two-column layout that automatically inserts column breaks.
+
+Next, I import the theme \texttt{istqb\slash sample-exam} and I use the snippet \texttt{questions} from this theme to process question definitions:
+
+\showimplementation
+  {firstline=8, lastline=14}
+  {examples/answers/answer-key.sty}
+
+After the question definitions have been processed, I start a two-column layout:
+
+\showimplementation
+  {firstline=15, lastline=17}
+  {examples/answers/answer-key.sty}
+
+Then, I set the heading and the tail of the table:
+
+\showimplementation
+  {firstline=18, lastline=33}
+  {examples/answers/answer-key.sty}
+
+Next, I define a variable with code that typesets the table:
+
+\showimplementation
+  {firstline=34, lastline=36}
+  {examples/answers/answer-key.sty}
+
+\noindent
+First, I start the table:
+
+\showimplementation
+  {firstline=37, lastline=42}
+  {examples/answers/answer-key.sty}
+
+\noindent
+Next, I iterate over all question numbers:
+
+\showimplementation
+  {firstline=43, lastline=48}
+  {examples/answers/answer-key.sty}
+
+\noindent
+For each question, I add the question number:
+
+\showimplementation
+  {firstline=49, lastline=51}
+  {examples/answers/answer-key.sty}
+
+\noindent
+Next, I add the correct answer letters:
+
+\showimplementation
+  {firstline=52, lastline=62}
+  {examples/answers/answer-key.sty}
+
+\noindent
+Then, I add the learning objective:
+
+\showimplementation
+  {firstline=63, lastline=79}
+  {examples/answers/answer-key.sty}
+
+\noindent
+Next, I add the K-level:
+
+\showimplementation
+  {firstline=80, lastline=89}
+  {examples/answers/answer-key.sty}
+
+\noindent
+Lastly, I add the number of points:
+
+\showimplementation
+  {firstline=90, lastline=101}
+  {examples/answers/answer-key.sty}
+
+\noindent
+After I have iterated over all question numbers, I end the table:
+
+\showimplementation
+  {firstline=102, lastline=104}
+  {examples/answers/answer-key.sty}
+
+Then, I place the content of the variable to the input stream:
+
+\showimplementation
+  {firstline=105, lastline=106}
+  {examples/answers/answer-key.sty}
+
+Finally, I end the multicolumn layout:
+
+\showimplementation
+  {firstline=107}
+  {examples/answers/answer-key.sty}
 
 \subsection{Typesetting answers}
-% TODO
+In this section, I describe the snippet \texttt{answers} from the theme \texttt{istqb\slash sample\hyphen exam\slash answers}. This snippet typesets the list of answers in Figure~\ref{fig:question-definitions}c.
 
-\showimplementation{examples/answers/answers.sty}
+First, I load package longtable:
 
-% TODO: Discuss the implementation.
+\showimplementation
+  {firstnumber=1, lastline=1}
+  {examples/answers/answers.sty}
+
+\noindent
+The package allows me to typeset the list of answers as a table that automatically inserts page breaks.
+
+Next, I use snippet the \texttt{questions} from theme \texttt{istqb\slash sample\hyphen exam} to process question definitions:
+
+\showimplementation
+  {firstline=2, lastline=9}
+  {examples/answers/answers.sty}
+
+After the question definitions have been processed, I define a variable that typesets the table:
+
+\showimplementation
+  {firstline=10, lastline=15}
+  {examples/answers/answers.sty}
+
+\noindent
+First, I start the table and I set its heading:
+
+\showimplementation
+  {firstline=16, lastline=42}
+  {examples/answers/answers.sty}
+
+\noindent
+Next, I iterate over all question numbers:
+
+\showimplementation
+  {firstline=43, lastline=45}
+  {examples/answers/answers.sty}
+
+\noindent
+For each question, I add the question number:
+
+\showimplementation
+  {firstline=46, lastline=55}
+  {examples/answers/answers.sty}
+
+\noindent
+Next, I add the correct answer letters:
+
+\showimplementation
+  {firstline=56, lastline=66}
+  {examples/answers/answers.sty}
+
+\noindent
+Then I add the explanation text:
+
+\showimplementation
+  {firstline=67, lastline=90}
+  {examples/answers/answers.sty}
+
+\noindent
+Next, I add the learning objective:
+
+\showimplementation
+  {firstline=91, lastline=107}
+  {examples/answers/answers.sty}
+
+\noindent
+Lastly, I add the K-level:
+
+\showimplementation
+  {firstline=108, lastline=117}
+  {examples/answers/answers.sty}
+
+\noindent
+Lastly, I add the number of points:
+
+\showimplementation
+  {firstline=118, lastline=129}
+  {examples/answers/answers.sty}
+
+\noindent
+After I have iterated over all question numbers, I end the table:
+
+\showimplementation
+  {firstline=130, lastline=132}
+  {examples/answers/answers.sty}
+
+Then, I place the content of the variable to the input stream:
+
+\showimplementation
+  {firstline=133}
+  {examples/answers/answers.sty}
 
 \section*{Conclusion}
-% TODO
+In this article, I demonstrated the practical application of Markdown themes using \acro{ISTQB} Sample Exam Questions and Answers documents as an example.
 
-\section*{Acknowledgements}
-% TODO
+Whereas my previous article~\cite{novotny2021markdown} focused on the concepts behind Markdown themes, this article provides concrete code used in a real-world software project. I hope this practical lesson will raise awareness of Markdown themes and illustrate how users can incorporate themes into their own projects.
 
 \SetBibJustification{\raggedright \advance\itemsep by 2pt plus1pt minus1pt}
 \bibliographystyle{tugboat}

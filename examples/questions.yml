@@ -1,7 +1,7 @@
-duration: [10, 15]  # minutes
 num-questions: 3
 max-score: 4
 pass-score: 50  # percent
+duration: [10, 15]  # minutes
 questions:
   1:
     learning-objective: 1.2.3

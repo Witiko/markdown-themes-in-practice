@@ -1,7 +1,7 @@
-\markdownSetup
-  { import = istqb / sample-exam }
-\dim_new:N
-  \l_explanation_width_dim
+\RequirePackage { longtable }
+\dim_const:Nn
+  \c_explanation_width_dim
+  { 11.15cm }
 \markdownSetupSnippet
   { answers }
   {
@@ -60,15 +60,13 @@
               \l_tmpa_clist
             \tl_put_right:Ne
               \l_tmpa_tl
-              {
-                \clist_use:Nn
+              { \clist_use:Nn
                   \l_tmpa_clist
                   { ,~ } &
               }
             \tl_put_right:Nn
               \l_tmpa_tl
-              {
-                \begin
+              { \begin
                   { minipage }
                   [ t ]
                   {
@@ -85,10 +83,8 @@
               \l_tmpb_tl
             \tl_put_right:Nn
               \l_tmpa_tl
-              {
-                \end { minipage }
-                \medskip
-              }
+              { \end { minipage }
+                \medskip }
             \tl_put_right:Nn
               \l_tmpa_tl
               { & }
@@ -133,9 +129,7 @@
           }
         \tl_put_right:Nn
           \l_tmpa_tl
-          {
-            \end { longtable }
-          }
+          { \end { longtable } }
         \tl_use:N
           \l_tmpa_tl
         \group_end:

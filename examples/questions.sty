@@ -56,7 +56,7 @@
             }
           }
       },
-      jekyllData(Mapping|Sequence)Begin += {
+      jekyllData(Mapping|Sequence)Begin += {%\linelabel{pattern:01:begin}%
         \str_case:nn
           { #1 }
           {
@@ -79,16 +79,15 @@
                 }
             }
           }
-      },
+      },%\linelabel{pattern:01:end}%
     },
   }
-\tl_new:N
-  \l_istqb_current_question_tl
 \markdownSetupSnippet
   { questions / list }
   {
     renderers = {
-      jekyllDataMappingBegin = {
+      jekyllDataMappingBegin = {%\linelabel{pattern:02:begin}%
+        \group_begin:
         \tl_set:Nn
           \l_istqb_current_question_tl
           { #1 }
@@ -97,7 +96,6 @@
           \l_istqb_current_question_tl
         \markdownSetup
           {
-            code = \group_begin:,
             renderers = {
               jekyllDataMappingEnd =
             },
@@ -108,7 +106,7 @@
                 \group_end:
             },
           }
-      },
+      },%\linelabel{pattern:02:end}%
     },
   }
 \prop_new:N
@@ -121,12 +119,6 @@
   \g_istqb_question_explanation_prop
 \prop_new:N
   \g_istqb_question_text_prop
-\prop_new:N
-  \g_istqb_answer_correct_keys_prop
-\seq_new:N
-  \l_istqb_current_answer_correct_keys_seq
-\clist_new:N
-  \l_istqb_current_answer_correct_keys_clist
 \keys_define:nn
   { istqb / questions / * }
   {
@@ -162,28 +154,6 @@
         \l_istqb_current_question_tl
         { #1 }
     },
-    correct .code:n = {
-      \group_begin:
-      \clist_map_inline:nn
-        { #1 }
-        {
-          \seq_put_right:cn
-            { l_istqb_current_answer_correct
-              _keys_seq }
-            { ##1 }
-        }
-      \clist_set_from_seq:cc
-        { l_istqb_current_answer_correct_keys
-          _clist }
-        { l_istqb_current_answer_correct_keys
-          _seq }
-      \prop_gput:NVv
-        \g_istqb_answer_correct_keys_prop
-        \l_istqb_current_question_tl
-        { l_istqb_current_answer_correct_keys
-          _clist }
-      \group_end:
-    },
   }
 \markdownSetupSnippet
   { questions / * }
@@ -194,7 +164,7 @@
           { istqb / questions / * }
           { { #1 } = { #2 } }
       },
-      jekyllDataSequenceBegin = {
+      jekyllDataSequenceBegin = {%\linelabel{pattern:03:begin}%
         \str_case:nn
           { #1 }
           {
@@ -237,31 +207,7 @@
                 }
             }
           }
-      },
-    },
-  }
-\markdownSetupSnippet
-  { questions / * / correct }
-  {
-    renderers = {
-      jekyllData(String|Number) = {
-        \seq_put_right:cn
-          { l_istqb_current_answer_correct
-            _keys_seq }
-          { #2 }
-      },
-      jekyllDataSequenceEnd += {
-        \clist_set_from_seq:cc
-          { l_istqb_current_answer_correct
-            _keys_clist }
-          { l_istqb_current_answer_correct
-            _keys_seq }
-        \prop_gput:NVv
-          \g_istqb_answer_correct_keys_prop
-          \l_istqb_current_question_tl
-          { l_istqb_current_answer_correct
-            _keys_clist }
-      },
+      },%\linelabel{pattern:03:end}%
     },
   }
 \prop_new:N \g_istqb_answer_keys_prop
@@ -289,14 +235,6 @@
           { #2 }
       },
       jekyllDataMappingEnd += {
-        \seq_sort:Nn
-          \l_istqb_current_answer_keys_seq
-          {
-            \str_compare:nNnTF
-              { ##1 } > { ##2 }
-              { \sort_return_swapped: }
-              { \sort_return_same: }
-          }
         \clist_set_from_seq:NN
           \l_istqb_current_answer_keys_clist
           \l_istqb_current_answer_keys_seq
@@ -304,6 +242,36 @@
           \g_istqb_answer_keys_prop
           \l_istqb_current_question_tl
           \l_istqb_current_answer_keys_clist
+      },
+    },
+  }
+\prop_new:N
+  \g_istqb_answer_correct_keys_prop
+\seq_new:N
+  \l_istqb_current_answer_correct_keys_seq
+\clist_new:N
+  \l_istqb_current_answer_correct_keys_clist
+\markdownSetupSnippet
+  { questions / * / correct }
+  {
+    renderers = {
+      jekyllData(String|Number) = {
+        \seq_put_right:cn
+          { l_istqb_current_answer_correct
+            _keys_seq }
+          { #2 }
+      },
+      jekyllDataSequenceEnd += {
+        \clist_set_from_seq:cc
+          { l_istqb_current_answer_correct
+            _keys_clist }
+          { l_istqb_current_answer_correct
+            _keys_seq }
+        \prop_gput:NVv
+          \g_istqb_answer_correct_keys_prop
+          \l_istqb_current_question_tl
+          { l_istqb_current_answer_correct
+            _keys_clist }
       },
     },
   }
