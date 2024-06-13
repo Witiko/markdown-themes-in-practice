@@ -80,22 +80,12 @@
                     \clist_count:N
                       \l_tmpa_clist
                   }
-                Select~\int_case:nnF
+                Select~\int_case:nn
                   { \l_tmpa_int }
                   {
-                    { 1 } { ONE }
-                    { 2 } { TWO }
-                    { 3 } { THREE }
-                    { 4 } { FOUR }
-                    { 5 } { FIVE }
+                    { 1 } { ONE~option }
+                    { 2 } { TWO~options }
                   }
-                  {
-                    \int_use:N
-                      \l_tmpa_int
-                  }~option
-                  \int_compare:VNnF
-                  \l_tmpa_int = { 1 }
-                  { s }.
               }
             \vbox_set:NV
               \l_tmpa_box

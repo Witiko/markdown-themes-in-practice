@@ -16,8 +16,7 @@
       jekyllDataEnd = {
         \begin { multicols } { 2 }
         \tablehead
-          {
-            \hline
+          { \hline
             \textbf
               { Question~Number~(\#) } &
             \textbf
@@ -27,19 +26,16 @@
             \textbf
               { K-Level } &
             \textbf
-              { Number~of~Points } \\
-          }
+              { Number~of~Points } \\ }
         \tabletail { \hline }
         \tablelasttail { \hline }
         \tl_set:Nn
           \l_tmpa_tl
-          {
-            \begin
+          { \begin
               { supertabular }
               { | C { 1.9cm } | C { 1.5cm }
                 | C { 2.4cm } | C { 1.4cm }
-                | C { 1.9cm } | }
-          }
+                | C { 1.9cm } | } }
         \seq_map_inline:Nn
           \g_istqb_questions_seq
           {
@@ -58,8 +54,7 @@
               \l_tmpa_tl
               { \clist_use:Nn
                   \l_tmpa_clist
-                  { ,~ } &
-              }
+                  { ,~ } & }
             \tl_put_right:NV
               \l_tmpa_tl
               \g_istqb_prefix_tl

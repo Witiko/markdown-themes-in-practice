@@ -12,8 +12,7 @@
         \group_begin:
         \tl_set:Nn
           \l_tmpa_tl
-          {
-            \begin
+          { \begin
               { longtable }
               { | C { 1.9cm } | C { 1.5cm }
                 | p
@@ -29,8 +28,7 @@
               { C
                 { \c_explanation_width_dim }
                 | }
-              {
-                \textbf
+              { \textbf
                   { Explanation~/~Rationale }
               } &
             \textbf
@@ -38,21 +36,18 @@
             \textbf { K-Level } &
             \textbf { Number~of~Points } \\
             \hline
-            \endhead
-          }
+            \endhead }
         \seq_map_inline:Nn
           \g_istqb_questions_seq
           {
             \tl_put_right:Nn
               \l_tmpa_tl
-              {
-                \textbf
+              { \textbf
                   { ##1 }
                 \addcontentsline
                   { toc }
                   { subsection }
-                  { Question~\# ##1 } &
-              }
+                  { Question~\# ##1 } & }
             \prop_get:cnN
               { g_istqb_answer_correct
                 _keys_prop }
@@ -66,12 +61,11 @@
               }
             \tl_put_right:Nn
               \l_tmpa_tl
-              { \begin
+              {
+                \begin
                   { minipage }
                   [ t ]
-                  {
-                    \c_explanation_width_dim
-                  }
+                  \c_explanation_width_dim
               }
             \prop_get:cnN
               { g_istqb_question_explanation
