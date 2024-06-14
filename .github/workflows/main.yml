@@ -25,16 +25,18 @@ jobs:
         run: |
           set -ex
           apt -qy update
-          apt -qy install --no-install-recommends parallel
+          apt -qy install --no-install-recommends parallel zip
       - name: Typeset examples
         run: parallel --halt now,fail=1 -- latexmk -cd ':::' examples/*.tex
       - name: Typeset article
         run: latexmk tb140starynovotny-markdown.ltx
+      - name: Archive sources
+        run: zip -@ tb140starynovotny-markdown < MANIFEST
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
           name: tb140starynovotny-markdown
-          path: tb140starynovotny-markdown.pdf
+          path: tb140starynovotny-markdown.zip
       - name: Create a prerelease
         if: github.ref == 'refs/heads/main'
         uses: marvinpinto/action-automatic-releases@latest
@@ -43,4 +45,6 @@ jobs:
           automatic_release_tag: latest
           prerelease: true
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          files: tb140starynovotny-markdown.pdf
+          files: |
+            tb140starynovotny-markdown.pdf
+            tb140starynovotny-markdown.zip
