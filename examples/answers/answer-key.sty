@@ -30,7 +30,7 @@
         \tabletail { \hline }
         \tablelasttail { \hline }
         \tl_set:Nn
-          \l_tmpa_tl
+          \l_istqb_answer_key_table_tl
           { \begin
               { supertabular }
               { | C { 1.9cm } | C { 1.5cm }
@@ -40,10 +40,10 @@
           \g_istqb_questions_seq
           {
             \tl_put_right:Nn
-              \l_tmpa_tl
+              \l_istqb_answer_key_table_tl
               { \hline }
             \tl_put_right:Nn
-              \l_tmpa_tl
+              \l_istqb_answer_key_table_tl
               { \textbf { ##1 } & }
             \prop_get:cnN
               { g_istqb_answer_correct
@@ -51,54 +51,54 @@
               { ##1 }
               \l_tmpa_clist
             \tl_put_right:Ne
-              \l_tmpa_tl
+              \l_istqb_answer_key_table_tl
               { \clist_use:Nn
                   \l_tmpa_clist
                   { ,~ } & }
             \tl_put_right:NV
-              \l_tmpa_tl
+              \l_istqb_answer_key_table_tl
               \g_istqb_prefix_tl
             \tl_put_right:Nn
-              \l_tmpa_tl
+              \l_istqb_answer_key_table_tl
               { - }
             \prop_get:cnN
               { g_istqb_question_learning
                 _objective_prop }
               { ##1 }
-              \l_tmpb_tl
+              \l_tmpa_tl
             \tl_put_right:NV
+              \l_istqb_answer_key_table_tl
               \l_tmpa_tl
-              \l_tmpb_tl
             \tl_put_right:Nn
-              \l_tmpa_tl
+              \l_istqb_answer_key_table_tl
               { & }
             \prop_get:NnN
               \g_istqb_question_k_level_prop
               { ##1 }
-              \l_tmpb_tl
+              \l_tmpa_tl
             \tl_put_right:NV
+              \l_istqb_answer_key_table_tl
               \l_tmpa_tl
-              \l_tmpb_tl
             \tl_put_right:Nn
-              \l_tmpa_tl
+              \l_istqb_answer_key_table_tl
               { & }
             \prop_get:cnN
               { g_istqb_question_number
                 _of_points_prop }
               { ##1 }
-              \l_tmpb_tl
+              \l_tmpa_tl
             \tl_put_right:NV
+              \l_istqb_answer_key_table_tl
               \l_tmpa_tl
-              \l_tmpb_tl
             \tl_put_right:Nn
-              \l_tmpa_tl
+              \l_istqb_answer_key_table_tl
               { \\ }
           }
         \tl_put_right:Nn
-          \l_tmpa_tl
+          \l_istqb_answer_key_table_tl
           { \end { supertabular } }
         \tl_use:N
-          \l_tmpa_tl
+          \l_istqb_answer_key_table_tl
         \end { multicols }
       },
     },
