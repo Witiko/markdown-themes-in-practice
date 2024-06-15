@@ -88,7 +88,7 @@ In my work, I developed a \LaTeX{} document class and six Markdown themes~\cite{
 
 The \LaTeX{} document class is named \texttt{istqb} and it is stored in file \texttt{template\slash istqb.cls}. It implements the design of all \acro{ISTQB} documents, defines the meaning of common Unicode characters, and defines \LaTeX{} markup such as \cs{istqbunnumbered\-section}, \texttt{\textbackslash istqb\-land\-scape\-begin}, and \texttt{\textbackslash istqb\-land\-scape\-end}.
 
-The Markdown themes are named \texttt{istqb\slash*} and stored in files \texttt{template\slash markdowntheme*.sty}, see also Figure~\ref{fig:class-diagram}. Here is a description of the themes:
+The Markdown themes are named \texttt{istqb\slash*} and stored in files \texttt{template\slash markdowntheme*.tex} and \texttt{*.sty}, see also Figure~\ref{fig:class-diagram}. Here is what they do:
 \begin{itemize}
 \item The theme \texttt{istqb\slash common} enables Markdown syntax extensions, implements the loading of \acro{YAML} language definitions and document metadata into \TeX{} macros, and defines the mapping between Markdown elements and \LaTeX{} markup. The remaining themes are based on this theme and they implement support for specific types of \acro{ISTQB} documents.
 \item The \texttt{istqb\slash body-of-knowledge} and  \texttt{syllabus} themes are used in \acro{ISTQB} Body of Knowledge and Syllabus documents. At the time of writing, the themes implement no extra functionality.
@@ -101,7 +101,7 @@ The Markdown themes are named \texttt{istqb\slash*} and stored in files \texttt{
 \noindent
 \begin{tikzpicture}[every node/.style={inner sep=0pt, outer sep=0pt}]
   \node (wolf) at (0, 0) {\includegraphics[width=\linewidth]{images/detective-wolf.jpg}};
-  \node [above=-4.5mm of wolf, text width=\linewidth, align=justify] {In the rest of this article, I show the main concepts behind Markdown themes on \acro{ISTQB} Sample Exam Questions and Answers documents using the themes \texttt{istqb\slash sample-exam}, \texttt{istqb\slash sample-exam\slash questions}, and \texttt{\slash answers}.};
+  \node [above=-4.5mm of wolf, text width=\linewidth, align=justify] {In the rest of this article, I show the main concepts behind Markdown themes on the example of \acro{ISTQB} Sample Exam Questions and Answers documents that use the themes \texttt{istqb\slash sample-exam\slash questions} and \texttt{\slash answers}.};
   \node [below=3mm of wolf, text width=\linewidth, align=center] {With Markdown themes, your document can wear many different disguises, just like the wolf.};
 \end{tikzpicture}%
 \vspace{-0.65mm}
@@ -234,6 +234,8 @@ Finally, I define snippets \texttt{questions\slash *\slash answers} and \texttt{
 The snippets accumulate potential and correct answer letters in a sequence, respectively. Then, they store the sequence as a comma-list to a dict that uses the current question number as the key.
 
 Moveover, the snippet \texttt{questions\slash *\slash answers} stores potential answer texts to a dict that uses \meta{current question number}\texttt{\slash}\meta{answer letter} as key.
+
+Notice that I used no format-specific code in this section. Therefore, I can use the theme \texttt{istqb\slash sample-exam} with any format that supports expl3 such as plain \TeX{} and \Hologo{ConTeXt}, not just with \LaTeX.
 
 \subsection{Typesetting questions}
 In this section, I describe the snippet \texttt{questions} from theme \texttt{istqb\slash sample-exam\slash questions}. This snippet typesets the list of questions in Figure~\ref{fig:question-definitions}a.
