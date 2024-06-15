@@ -152,7 +152,7 @@ Both the snippet \texttt{questions} from the theme \texttt{istqb\slash sample-ex
 First, I define a key--value \texttt{istqb\slash questions}:
 
 \showimplementation
-  {firstnumber=1, firstline=1, lastline=10}
+  {firstnumber=1, firstline=1, lastline=8}
   {examples/questions.sty}
 
 \noindent
@@ -161,7 +161,7 @@ The key--value stores the values in top-level unstructured fields \texttt{num-qu
 Next, I define a key--value \texttt{istqb\slash questions\slash duration}:
 
 \showimplementation
-  {firstline=11, lastline=18}
+  {firstline=9, lastline=14}
   {examples/questions.sty}
 
 \noindent
@@ -170,7 +170,7 @@ The key--value stores the values in the top-level structured field \texttt{durat
 Then, I define the snippet \texttt{questions} itself:
 
 \showimplementation
-  {firstline=19, lastline=84}
+  {firstline=15, lastline=60}
   {examples/questions.sty}
 
 \noindent
@@ -185,7 +185,7 @@ The snippet processes question definitions as follows:
 Next, I define the snippet \texttt{questions/list}:
 
 \showimplementation
-  {firstline=85, lastline=111}
+  {firstline=61, lastline=79}
   {examples/questions.sty}
 
 \noindent
@@ -198,7 +198,7 @@ The snippet processes each question as follows:
 Then, I define key--value \texttt{istqb\slash questions\slash *}:
 
 \showimplementation
-  {firstline=112, lastline=157}
+  {firstline=80, lastline=118}
   {examples/questions.sty}
 
 \noindent
@@ -207,7 +207,7 @@ The key--value stores the values in unstructured fields \texttt{number\hyphen of
 Next, I define the snippet \texttt{questions/*}:
 
 \showimplementation
-  {firstline=158, lastline=212}
+  {firstline=119, lastline=154}
   {examples/questions.sty}
 
 \noindent
@@ -227,7 +227,7 @@ Notice the design pattern on lines \linesref{pattern:01}, \linesref{pattern:02},
 Finally, I define snippets \texttt{questions\slash *\slash answers} and \texttt{\slash correct}:
 
 \showimplementation
-  {firstline=213}
+  {firstline=155}
   {examples/questions.sty}
 
 \noindent

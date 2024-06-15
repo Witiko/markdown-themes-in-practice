@@ -1,69 +1,52 @@
 \keys_define:nn
   { istqb / questions }
-  {
-    num-questions .int_gset:N =
+  { num-questions .int_gset:N =
       \g_istqb_num_questions_int,
     max-score .int_gset:N =
       \g_istqb_max_score_int,
     pass-score .int_gset:N =
-      \g_istqb_pass_score_int,
-  }
+      \g_istqb_pass_score_int }
 \keys_define:nn
   { istqb / questions / duration }
-  {
-    1 .int_gset:N =
+  { 1 .int_gset:N =
       \g_istqb_duration_min_int,
     2 .int_gset:N =
-      \g_istqb_duration_max_int,
-  }
+      \g_istqb_duration_max_int }
 \seq_new:N \g_istqb_questions_seq
 \markdownSetupSnippet
   { questions }
-  {
-    jekyllData,
+  { jekyllData,
     expectJekyllData,
     renderers = {
       jekyllDataBegin = {
         \seq_gclear:N
-          \g_istqb_questions_seq
-      },
+          \g_istqb_questions_seq },
       jekyllData(String|Number) = {
         \keys_set:nn
           { istqb / questions }
-          { { #1 } = { #2 } }
-      },
+          { { #1 } = { #2 } }},
       jekyllDataMappingBegin = ,
       jekyllDataSequenceBegin = {
         \str_case:nn
           { #1 }
-          {
-            { duration } {
+          { { duration } {
               \markdownSetup
-                {
-                  code = \group_begin:,
+                { code = \group_begin:,
                   renderers = {
                     jekyllData(String
                               |Number) = {
                       \keys_set:nn
                         { istqb / questions /
                           duration }
-                        { { ##1 } = { ##2 } }
-                    },
+                        {{ ##1 } = { ##2 }}},
                     jekyllDataSequenceEnd =
-                      \group_end:
-                  },
-                }
-            }
-          }
-      },
+                      \group_end: }}}}},
       jekyllData(Mapping|Sequence)Begin += {%\linelabel{pattern:01:begin}%
         \str_case:nn
           { #1 }
-          {
-            { questions } {
+          { { questions } {
               \markdownSetup
-                {
-                  code = \group_begin:,
+                { code = \group_begin:,
                   renderers = {
                     jekyllData(Mapping
                               |Sequence)End =
@@ -74,18 +57,10 @@
                   renderers = {
                     jekyllData(Mapping
                               |Sequence)End
-                      += \group_end:
-                  },
-                }
-            }
-          }
-      },%\linelabel{pattern:01:end}%
-    },
-  }
+                      += \group_end: }}}}}}}%\linelabel{pattern:01:end}%
 \markdownSetupSnippet
   { questions / list }
-  {
-    renderers = {
+  { renderers = {
       jekyllDataMappingBegin = {%\linelabel{pattern:02:begin}%
         \group_begin:
         \tl_set:Nn
@@ -95,20 +70,13 @@
           \g_istqb_questions_seq
           \l_istqb_current_question_tl
         \markdownSetup
-          {
-            renderers = {
-              jekyllDataMappingEnd =
-            },
+          { renderers = {
+              jekyllDataMappingEnd = },
             snippet = istqb / sample-exam
               / questions / *,
             renderers = {
               jekyllDataMappingEnd +=
-                \group_end:
-            },
-          }
-      },%\linelabel{pattern:02:end}%
-    },
-  }
+                \group_end: }}}}}%\linelabel{pattern:02:end}%
 \prop_new:N
   \g_istqb_question_number_of_points_prop
 \prop_new:N
@@ -121,57 +89,46 @@
   \g_istqb_question_text_prop
 \keys_define:nn
   { istqb / questions / * }
-  {
-    number-of-points .code:n = {
+  { number-of-points .code:n = {
       \prop_gput:cVn
         { g_istqb_question_number_of_points
           _prop }
         \l_istqb_current_question_tl
-        { #1 }
-    },
+        { #1 } },
     learning-objective .code:n = {
       \prop_gput:cVn
         { g_istqb_question_learning_objective
           _prop }
         \l_istqb_current_question_tl
-        { #1 }
-    },
+        { #1 } },
     k-level .code:n = {
       \prop_gput:NVn
         \g_istqb_question_k_level_prop
         \l_istqb_current_question_tl
-        { #1 }
-    },
+        { #1 } },
     explanation .code:n = {
       \prop_gput:NVn
         \g_istqb_question_explanation_prop
         \l_istqb_current_question_tl
-        { #1 }
-    },
+        { #1 } },
     question .code:n = {
       \prop_gput:NVn
         \g_istqb_question_text_prop
         \l_istqb_current_question_tl
-        { #1 }
-    },
-  }
+        { #1 } }}
 \markdownSetupSnippet
   { questions / * }
-  {
-    renderers = {
+  { renderers = {
       jekyllData(String|Number) = {
         \keys_set:nn
           { istqb / questions / * }
-          { { #1 } = { #2 } }
-      },
+          { { #1 } = { #2 } }},
       jekyllDataSequenceBegin = {%\linelabel{pattern:03:begin}%
         \str_case:nn
           { #1 }
-          {
-            { correct } {
+          { { correct } {
               \markdownSetup
-                {
-                  code = \group_begin:,
+                { code = \group_begin:,
                   renderers = {
                     jekyllDataSequenceEnd =
                   },
@@ -180,36 +137,21 @@
                     / * / correct,
                   renderers = {
                     jekyllDataSequenceEnd +=
-                      \group_end:
-                  },
-                }
-            }
-          }
-      },
+                      \group_end: }}}}},
       jekyllDataMappingBegin = {
         \str_case:nn
           { #1 }
-          {
-            { answers } {
+          { { answers } {
               \markdownSetup
-                {
-                  code = \group_begin:,
+                { code = \group_begin:,
                   renderers = {
-                    jekyllDataMappingEnd =
-                  },
+                    jekyllDataMappingEnd = },
                   snippet = istqb
                     / sample-exam / questions
                     / * / answers,
                   renderers = {
                     jekyllDataMappingEnd +=
-                      \group_end:
-                  },
-                }
-            }
-          }
-      },%\linelabel{pattern:03:end}%
-    },
-  }
+                      \group_end: }}}}}}}%\linelabel{pattern:03:end}%
 \prop_new:N \g_istqb_answer_keys_prop
 \prop_new:N \g_istqb_answers_prop
 \seq_new:N \l_istqb_current_answer_keys_seq
@@ -217,8 +159,7 @@
   \l_istqb_current_answer_keys_clist
 \markdownSetupSnippet
   { questions / * / answers }
-  {
-    renderers = {
+  { renderers = {
       jekyllData(String|Number) = {
         \seq_put_right:Nn
           \l_istqb_current_answer_keys_seq
@@ -232,19 +173,16 @@
         \prop_gput:NVn
           \g_istqb_answers_prop
           \l_tmpa_tl
-          { #2 }
-      },
+          { #2 } },
       jekyllDataMappingEnd += {
         \clist_set_from_seq:NN
           \l_istqb_current_answer_keys_clist
           \l_istqb_current_answer_keys_seq
-        \prop_gput:NVV
+        \prop_gput:NVv
           \g_istqb_answer_keys_prop
           \l_istqb_current_question_tl
-          \l_istqb_current_answer_keys_clist
-      },
-    },
-  }
+          { l_istqb_current_answer_keys
+            _clist } }}}
 \prop_new:N
   \g_istqb_answer_correct_keys_prop
 \seq_new:N
@@ -253,14 +191,12 @@
   \l_istqb_current_answer_correct_keys_clist
 \markdownSetupSnippet
   { questions / * / correct }
-  {
-    renderers = {
+  { renderers = {
       jekyllData(String|Number) = {
         \seq_put_right:cn
           { l_istqb_current_answer_correct
             _keys_seq }
-          { #2 }
-      },
+          { #2 } },
       jekyllDataSequenceEnd += {
         \clist_set_from_seq:cc
           { l_istqb_current_answer_correct
@@ -271,7 +207,4 @@
           \g_istqb_answer_correct_keys_prop
           \l_istqb_current_question_tl
           { l_istqb_current_answer_correct
-            _keys_clist }
-      },
-    },
-  }
+            _keys_clist } }}}
