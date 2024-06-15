@@ -30,6 +30,8 @@ jobs:
         run: parallel --halt now,fail=1 -- latexmk -cd ':::' examples/*.tex
       - name: Typeset article
         run: latexmk tb140starynovotny-markdown.ltx
+      - name: Check that there are fewer than or exactly 10 pages
+        run: test `tail tb140starynovotny-markdown.log | sed -rn 's/.*\(([0-9]*) pages.*/\1/p'` -le 10
       - name: Archive sources
         run: zip -@ tb140starynovotny-markdown < MANIFEST
       - name: Upload artifacts
