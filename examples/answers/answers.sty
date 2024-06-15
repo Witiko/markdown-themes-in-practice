@@ -4,15 +4,15 @@
   { 11.15cm }
 \markdownSetupSnippet
   { answers }
-  {
-    snippet = istqb / sample-exam
+  { snippet = istqb / sample-exam
       / questions,
     renderers = {
       jekyllDataEnd = {
         \group_begin:
         \tl_set:Nn
           \l_istqb_answers_table_tl
-          { \begin
+          {
+            \begin
               { longtable }
               { | C { 1.9cm } | C { 1.5cm }
                 | p
@@ -57,16 +57,13 @@
               \l_istqb_answers_table_tl
               { \clist_use:Nn
                   \l_tmpa_clist
-                  { ,~ } &
-              }
+                  { ,~ } & }
             \tl_put_right:Nn
               \l_istqb_answers_table_tl
-              {
-                \begin
+              { \begin
                   { minipage }
                   [ t ]
-                  \c_explanation_width_dim
-              }
+                  \c_explanation_width_dim }
             \prop_get:cnN
               { g_istqb_question_explanation
                 _prop }
@@ -119,14 +116,10 @@
               \l_tmpa_tl
             \tl_put_right:Nn
               \l_istqb_answers_table_tl
-              { \\ \hline }
-          }
+              { \\ \hline } }
         \tl_put_right:Nn
           \l_istqb_answers_table_tl
           { \end { longtable } }
         \tl_use:N
           \l_istqb_answers_table_tl
-        \group_end:
-      },
-    },
-  }
+        \group_end: }}}

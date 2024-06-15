@@ -1,18 +1,14 @@
 \markdownSetup
   { import = istqb / sample-exam }
-\tl_new:N
-  \l_istqb_question_tl
 \markdownSetupSnippet
   { questions }
-  {
-    snippet = istqb / sample-exam
+  { snippet = istqb / sample-exam
       / questions,
     renderers = {
       jekyllDataEnd = {
         \seq_map_inline:Nn
           \g_istqb_questions_seq
-          {
-            \tl_set:Nn
+          { \tl_set:Nn
               \l_istqb_question_tl
               {
                 \tl_set:Nn
@@ -31,11 +27,9 @@
                   { ~Point }
                 \int_compare:VNnF
                   \l_tmpb_tl = { 1 }
-                  {
-                    \tl_put_right:Nn
+                  { \tl_put_right:Nn
                       \l_tmpa_tl
-                      { s }
-                  }
+                      { s } }
                 \tl_put_right:Nn
                   \l_tmpa_tl
                   { ) }
@@ -61,12 +55,10 @@
                 \begin { enumerate }
                 \clist_map_inline:Nn
                   \l_tmpa_clist
-                  {
-                    \item [ ####1 ) ]
+                  { \item [ ####1 ) ]
                       \prop_item:Nn
                         \g_istqb_answers_prop
-                        { ##1 / ####1 }
-                  }
+                        { ##1 / ####1 } }
                 \end { enumerate }
                 \medskip
                 \prop_get:cnN
@@ -76,16 +68,12 @@
                   \l_tmpa_clist
                 \int_set:Nn
                   \l_tmpa_int
-                  {
-                    \clist_count:N
-                      \l_tmpa_clist
-                  }
+                  { \clist_count:N
+                      \l_tmpa_clist }
                 Select~\int_case:nn
                   { \l_tmpa_int }
-                  {
-                    { 1 } { ONE~option }
-                    { 2 } { TWO~options }
-                  }
+                  { { 1 } { ONE~option }
+                    { 2 } { TWO~options } }
               }
             \vbox_set:NV
               \l_tmpa_box
@@ -94,13 +82,7 @@
               { \box_ht:N \l_tmpa_box }
               >
               { 0.3 \paperheight }
-              {
-                \tl_use:N
-                  \l_istqb_question_tl
-              }
+              { \tl_use:N
+                  \l_istqb_question_tl }
               { \box_use:N \l_tmpa_box }
-            \par
-          }
-      },
-    },
-  }
+            \par }}}}

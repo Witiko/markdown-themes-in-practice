@@ -243,47 +243,47 @@ In this section, I describe the snippet \texttt{questions} from theme \texttt{is
 First, I import the theme \texttt{istqb\slash sample-exam} and I use the snippet \texttt{questions} from this theme to process question definitions:
 
 \showimplementation
-  {firstnumber=1, lastline=9}
+  {firstnumber=1, lastline=6}
   {examples/questions/questions.sty}
 
 After the question definitions have been processed, I iterate over all question numbers. For each question number, I define a variable with code that typesets the corresponding question:
 
 \showimplementation
-  {firstline=10, lastline=17}
+  {firstline=7, lastline=13}
   {examples/questions/questions.sty}
 
 \noindent
 First, I add a section heading for the question:
 
 \showimplementation
-  {firstline=18, lastline=53}
+  {firstline=14, lastline=47}
   {examples/questions/questions.sty}
 
 \noindent
 Next, I add the question text and potential answers:
 
 \showimplementation
-  {firstline=54, lastline=70}
+  {firstline=48, lastline=63}
   {examples/questions/questions.sty}
 
 \noindent
 Lastly, I add the text ``Select \meta{number of correct answers} option(s).'':
 
 \showimplementation
-  {firstline=71, lastline=89}
+  {firstline=64, lastline=77}
   {examples/questions/questions.sty}
 
 Finally, I typeset the code from the variable at natural height and store the result to a vertical box:
 
 \showimplementation
-  {firstline=90, lastline=92}
+  {firstline=78, lastline=80}
   {examples/questions/questions.sty}
 
 \noindent
 For short questions, I insert the box to the current list for typesetting to prevent page breaks within the question. For longer questions, I place the content of the variable to the input stream, so that page breaks can occur naturally:
 
 \showimplementation
-  {firstline=93}
+  {firstline=81}
   {examples/questions/questions.sty}
 
 \subsection{Typesetting answer key}
@@ -301,25 +301,25 @@ The packages allow me to typeset the answer key as a table in a two-column layou
 Next, I import the theme \texttt{istqb\slash sample-exam} and I use the snippet \texttt{questions} from this theme to process question definitions:
 
 \showimplementation
-  {firstline=8, lastline=14}
+  {firstline=8, lastline=13}
   {examples/answers/answer-key.sty}
 
 After the question definitions have been processed, I start a two-column layout:
 
 \showimplementation
-  {firstline=15, lastline=17}
+  {firstline=14, lastline=16}
   {examples/answers/answer-key.sty}
 
 Then, I set the heading and the tail of the table:
 
 \showimplementation
-  {firstline=18, lastline=31}
+  {firstline=17, lastline=30}
   {examples/answers/answer-key.sty}
 
 Next, I define a variable with code that typesets the table:
 
 \showimplementation
-  {firstline=32, lastline=33}
+  {firstline=31, lastline=33}
   {examples/answers/answer-key.sty}
 
 \noindent
@@ -396,7 +396,7 @@ In this section, I describe the snippet \texttt{answers} from the theme \texttt{
 First, I load package longtable:
 
 \showimplementation
-  {firstnumber=1, lastline=1}
+  {firstnumber=1, lastline=4}
   {examples/answers/answers.sty}
 
 \noindent
@@ -405,13 +405,13 @@ The package allows me to typeset the list of answers as a table that automatical
 Next, I use snippet the \texttt{questions} from theme \texttt{istqb\slash sample\hyphen exam} to process question definitions:
 
 \showimplementation
-  {firstline=2, lastline=9}
+  {firstline=5, lastline=8}
   {examples/answers/answers.sty}
 
 After the question definitions have been processed, I define a variable that typesets the table:
 
 \showimplementation
-  {firstline=10, lastline=14}
+  {firstline=9, lastline=14}
   {examples/answers/answers.sty}
 
 \noindent
@@ -439,14 +439,14 @@ For each question, I add the question number:
 Next, I add the correct answer letters:
 
 \showimplementation
-  {firstline=51, lastline=61}
+  {firstline=51, lastline=60}
   {examples/answers/answers.sty}
 
 \noindent
 Then I add the explanation text:
 
 \showimplementation
-  {firstline=62, lastline=81}
+  {firstline=61, lastline=81}
   {examples/answers/answers.sty}
 
 \noindent
@@ -467,20 +467,20 @@ Lastly, I add the K-level:
 Lastly, I add the number of points:
 
 \showimplementation
-  {firstline=109, lastline=120}
+  {firstline=109, lastline=119}
   {examples/answers/answers.sty}
 
 \noindent
 After I have iterated over all question numbers, I end the table:
 
 \showimplementation
-  {firstline=121, lastline=123}
+  {firstline=120, lastline=122}
   {examples/answers/answers.sty}
 
 Then, I place the content of the variable to the input stream:
 
 \showimplementation
-  {firstline=124}
+  {firstline=123}
   {examples/answers/answers.sty}
 
 \section*{Conclusion}
