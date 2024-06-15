@@ -44,8 +44,8 @@
 \title{Markdown themes in practice}
 
 % repeat info for each author; comment out items that don't apply.
-\author{Vít Starý Novotný}
-\address{Studená 453/15 \\ Brno 63800, Czech Republic}
+\author{V\'{i}t Star\'{y} Novotn\'{y}}
+\address{Studen\'{a} 453/15 \\ Brno 63800, Czech Republic}
 \netaddress{witiko (at) mail dot muni dot cz}
 \personalURL{github.com/witiko}
 
@@ -88,7 +88,7 @@ In my work, I developed a \LaTeX{} document class and six Markdown themes~\cite{
 
 The \LaTeX{} document class is named \texttt{istqb} and it is stored in file \texttt{template\slash istqb.cls}. It implements the design of all \acro{ISTQB} documents, defines the meaning of common Unicode characters, and defines \LaTeX{} markup such as \cs{istqbunnumbered\-section}, \texttt{\textbackslash istqb\-land\-scape\-begin}, and \texttt{\textbackslash istqb\-land\-scape\-end}.
 
-The Markdown themes are named \texttt{istqb\slash*} and stored in files \texttt{template\slash markdowntheme*.sty}, see also Figure~\ref{fig:class-diagram}. Here is a description of the themes:
+The Markdown themes are named \texttt{istqb\slash*} and stored in files \texttt{template\slash markdowntheme*.tex} and \texttt{*.sty}, see also Figure~\ref{fig:class-diagram}. Here is what they do:
 \begin{itemize}
 \item The theme \texttt{istqb\slash common} enables Markdown syntax extensions, implements the loading of \acro{YAML} language definitions and document metadata into \TeX{} macros, and defines the mapping between Markdown elements and \LaTeX{} markup. The remaining themes are based on this theme and they implement support for specific types of \acro{ISTQB} documents.
 \item The \texttt{istqb\slash body-of-knowledge} and  \texttt{syllabus} themes are used in \acro{ISTQB} Body of Knowledge and Syllabus documents. At the time of writing, the themes implement no extra functionality.
@@ -101,7 +101,7 @@ The Markdown themes are named \texttt{istqb\slash*} and stored in files \texttt{
 \noindent
 \begin{tikzpicture}[every node/.style={inner sep=0pt, outer sep=0pt}]
   \node (wolf) at (0, 0) {\includegraphics[width=\linewidth]{images/detective-wolf.jpg}};
-  \node [above=-4.5mm of wolf, text width=\linewidth, align=justify] {In the rest of this article, I show the main concepts behind Markdown themes on \acro{ISTQB} Sample Exam Questions and Answers documents using the themes \texttt{istqb\slash sample-exam}, \texttt{istqb\slash sample-exam\slash questions}, and \texttt{\slash answers}.};
+  \node [above=-4.5mm of wolf, text width=\linewidth, align=justify] {In the rest of this article, I show the main concepts behind Markdown themes on the example of \acro{ISTQB} Sample Exam Questions and Answers documents that use the themes \texttt{istqb\slash sample-exam\slash questions} and \texttt{\slash answers}.};
   \node [below=3mm of wolf, text width=\linewidth, align=center] {With Markdown themes, your document can wear many different disguises, just like the wolf.};
 \end{tikzpicture}%
 \vspace{-0.65mm}
@@ -143,7 +143,7 @@ The file imports the snippet \texttt{answers} from theme \texttt{istqb\slash sam
 \end{enumerate}
 
 \section{Implementation}
-In this section, I show how the themes \texttt{istqb\slash sample\hyphen exam\slash questions}, and \texttt{\slash answers} are implemented.
+In this section, I show the implementation of \acro{ISTQB} Sample Exam Questions and Answers documents. To make programming easier, I use the high-level expl3 language in addition to plain \TeX{} and \LaTeXe.
 
 \subsection{Processing question definitions}
 Both the snippet \texttt{questions} from the theme \texttt{istqb\slash sample-exam\slash questions} and the snippet \texttt{answers} from the theme \texttt{\slash answers} process question definitions before typesetting them. For the processing, they use the snippet \texttt{questions} from the theme \texttt{istqb\slash sample-exam}, which I describe in this section.
@@ -152,7 +152,7 @@ Both the snippet \texttt{questions} from the theme \texttt{istqb\slash sample-ex
 First, I define a key--value \texttt{istqb\slash questions}:
 
 \showimplementation
-  {firstnumber=1, firstline=1, lastline=10}
+  {firstnumber=1, firstline=1, lastline=8}
   {examples/questions.sty}
 
 \noindent
@@ -161,7 +161,7 @@ The key--value stores the values in top-level unstructured fields \texttt{num-qu
 Next, I define a key--value \texttt{istqb\slash questions\slash duration}:
 
 \showimplementation
-  {firstline=11, lastline=18}
+  {firstline=9, lastline=14}
   {examples/questions.sty}
 
 \noindent
@@ -170,7 +170,7 @@ The key--value stores the values in the top-level structured field \texttt{durat
 Then, I define the snippet \texttt{questions} itself:
 
 \showimplementation
-  {firstline=19, lastline=84}
+  {firstline=15, lastline=60}
   {examples/questions.sty}
 
 \noindent
@@ -185,7 +185,7 @@ The snippet processes question definitions as follows:
 Next, I define the snippet \texttt{questions/list}:
 
 \showimplementation
-  {firstline=85, lastline=111}
+  {firstline=61, lastline=79}
   {examples/questions.sty}
 
 \noindent
@@ -198,7 +198,7 @@ The snippet processes each question as follows:
 Then, I define key--value \texttt{istqb\slash questions\slash *}:
 
 \showimplementation
-  {firstline=112, lastline=157}
+  {firstline=80, lastline=118}
   {examples/questions.sty}
 
 \noindent
@@ -207,7 +207,7 @@ The key--value stores the values in unstructured fields \texttt{number\hyphen of
 Next, I define the snippet \texttt{questions/*}:
 
 \showimplementation
-  {firstline=158, lastline=212}
+  {firstline=119, lastline=154}
   {examples/questions.sty}
 
 \noindent
@@ -218,7 +218,7 @@ The snippet processes question definitions as follows:
 \item Pass the structured field \texttt{answers} to a snippet \texttt{questions\slash *\slash answers}.
 \end{enumerate}
 
-Notice the design pattern on lines \linesref{pattern:01}, \linesref{pattern:02}, and \linesref{pattern:03} that locally applies a \meta{snippet} to an \meta{element}. This pattern redefines the renderer \meta{element}\verb"Begin", which is placed to the output when the \meta{element} starts, as follows:
+Notice the design pattern on lines \linesref{pattern:01}, \linesref{pattern:02}, and \linesref{pattern:03} that locally applies a \meta{snippet} to an \meta{element}.\footnote{Such design patterns can be repetitive and difficult to understand without additional comments in the code. Markdown Enhancement Proposal (\acro{MEP}) 445~\cite{starynovotny2024parametric} envisions support for higher-order snippets that would make it possible to hide such design patterns behind easy-to-read shorthands.} This pattern redefines the renderer \meta{element}\verb"Begin", which is placed to the output when the \meta{element} starts, as follows:
 \begin{enumerate}
 \item Open a \TeX{} group and apply the \meta{snippet}.
 \item Redefine the renderer \meta{element}\verb"End", which is placed to the output when the \meta{element} ends, so that it closes the \TeX{} group.
@@ -227,7 +227,7 @@ Notice the design pattern on lines \linesref{pattern:01}, \linesref{pattern:02},
 Finally, I define snippets \texttt{questions\slash *\slash answers} and \texttt{\slash correct}:
 
 \showimplementation
-  {firstline=213}
+  {firstline=155}
   {examples/questions.sty}
 
 \noindent
@@ -235,53 +235,55 @@ The snippets accumulate potential and correct answer letters in a sequence, resp
 
 Moveover, the snippet \texttt{questions\slash *\slash answers} stores potential answer texts to a dict that uses \meta{current question number}\texttt{\slash}\meta{answer letter} as key.
 
+Notice that I used no format-specific code in this section. Therefore, I can use the theme \texttt{istqb\slash sample-exam} with any format that supports expl3 such as plain \TeX{} and \Hologo{ConTeXt}, not just with \LaTeX.
+
 \subsection{Typesetting questions}
 In this section, I describe the snippet \texttt{questions} from theme \texttt{istqb\slash sample-exam\slash questions}. This snippet typesets the list of questions in Figure~\ref{fig:question-definitions}a.
 
 First, I import the theme \texttt{istqb\slash sample-exam} and I use the snippet \texttt{questions} from this theme to process question definitions:
 
 \showimplementation
-  {firstnumber=1, lastline=9}
+  {firstnumber=1, lastline=6}
   {examples/questions/questions.sty}
 
 After the question definitions have been processed, I iterate over all question numbers. For each question number, I define a variable with code that typesets the corresponding question:
 
 \showimplementation
-  {firstline=10, lastline=17}
+  {firstline=7, lastline=13}
   {examples/questions/questions.sty}
 
 \noindent
 First, I add a section heading for the question:
 
 \showimplementation
-  {firstline=18, lastline=53}
+  {firstline=14, lastline=47}
   {examples/questions/questions.sty}
 
 \noindent
 Next, I add the question text and potential answers:
 
 \showimplementation
-  {firstline=54, lastline=70}
+  {firstline=48, lastline=63}
   {examples/questions/questions.sty}
 
 \noindent
 Lastly, I add the text ``Select \meta{number of correct answers} option(s).'':
 
 \showimplementation
-  {firstline=71, lastline=89}
+  {firstline=64, lastline=77}
   {examples/questions/questions.sty}
 
 Finally, I typeset the code from the variable at natural height and store the result to a vertical box:
 
 \showimplementation
-  {firstline=90, lastline=92}
+  {firstline=78, lastline=80}
   {examples/questions/questions.sty}
 
 \noindent
 For short questions, I insert the box to the current list for typesetting to prevent page breaks within the question. For longer questions, I place the content of the variable to the input stream, so that page breaks can occur naturally:
 
 \showimplementation
-  {firstline=93}
+  {firstline=81}
   {examples/questions/questions.sty}
 
 \subsection{Typesetting answer key}
@@ -299,25 +301,25 @@ The packages allow me to typeset the answer key as a table in a two-column layou
 Next, I import the theme \texttt{istqb\slash sample-exam} and I use the snippet \texttt{questions} from this theme to process question definitions:
 
 \showimplementation
-  {firstline=8, lastline=14}
+  {firstline=8, lastline=13}
   {examples/answers/answer-key.sty}
 
 After the question definitions have been processed, I start a two-column layout:
 
 \showimplementation
-  {firstline=15, lastline=17}
+  {firstline=14, lastline=16}
   {examples/answers/answer-key.sty}
 
 Then, I set the heading and the tail of the table:
 
 \showimplementation
-  {firstline=18, lastline=31}
+  {firstline=17, lastline=30}
   {examples/answers/answer-key.sty}
 
-Next, I define a variable with code that typesets the table:
+Next, I define a variable that typesets the table:
 
 \showimplementation
-  {firstline=32, lastline=33}
+  {firstline=31, lastline=33}
   {examples/answers/answer-key.sty}
 
 \noindent
@@ -394,7 +396,7 @@ In this section, I describe the snippet \texttt{answers} from the theme \texttt{
 First, I load package longtable:
 
 \showimplementation
-  {firstnumber=1, lastline=1}
+  {firstnumber=1, lastline=4}
   {examples/answers/answers.sty}
 
 \noindent
@@ -403,13 +405,13 @@ The package allows me to typeset the list of answers as a table that automatical
 Next, I use snippet the \texttt{questions} from theme \texttt{istqb\slash sample\hyphen exam} to process question definitions:
 
 \showimplementation
-  {firstline=2, lastline=9}
+  {firstline=5, lastline=8}
   {examples/answers/answers.sty}
 
 After the question definitions have been processed, I define a variable that typesets the table:
 
 \showimplementation
-  {firstline=10, lastline=14}
+  {firstline=9, lastline=14}
   {examples/answers/answers.sty}
 
 \noindent
@@ -437,14 +439,14 @@ For each question, I add the question number:
 Next, I add the correct answer letters:
 
 \showimplementation
-  {firstline=51, lastline=61}
+  {firstline=51, lastline=60}
   {examples/answers/answers.sty}
 
 \noindent
 Then I add the explanation text:
 
 \showimplementation
-  {firstline=62, lastline=81}
+  {firstline=61, lastline=81}
   {examples/answers/answers.sty}
 
 \noindent
@@ -465,26 +467,34 @@ Lastly, I add the K-level:
 Lastly, I add the number of points:
 
 \showimplementation
-  {firstline=109, lastline=120}
+  {firstline=109, lastline=119}
   {examples/answers/answers.sty}
 
 \noindent
 After I have iterated over all question numbers, I end the table:
 
 \showimplementation
-  {firstline=121, lastline=123}
+  {firstline=120, lastline=122}
   {examples/answers/answers.sty}
 
 Then, I place the content of the variable to the input stream:
 
 \showimplementation
-  {firstline=124}
+  {firstline=123}
   {examples/answers/answers.sty}
 
 \section*{Conclusion}
-In this article, I demonstrated the practical application of Markdown themes using \acro{ISTQB} Sample Exam Questions and Answers documents as an example.
 
-Whereas my previous article~\cite{novotny2021markdown} focused on the concepts behind Markdown themes, this article provides concrete code used in a real-world software project. I hope this practical lesson will raise awareness of Markdown themes and illustrate how users can incorporate themes into their own projects.
+In this article, I have demonstrated the practical application of Markdown themes through a project that enabled the International Software Testing Qualifications Board (\acro{ISTQB}) to produce their certification study materials from Markdown and \acro{YAML} sources. While my previous article~\cite{novotny2021markdown} focused on the underlying concepts of Markdown themes, this article provides concrete code used in a real-world software project. I hope this practical demonstration raises awareness of Markdown themes and illustrates how users can incorporate them into their own projects.
+
+For \acro{ISTQB}, the project for has yielded numerous benefits: Writing text in a structured format using Markdown and \acro{YAML}, while generating visually appealing outputs with \LaTeX{}, facilitates the separation of content from formatting. This ensures consistent application of the document's visual style across all \acro{ISTQB} content. Additionally, the structured text enables content verification against \acro{YAML} schemas and \acro{ISTQB} writing rules and allows for the creation of a complex knowledge base through automated processing. This enhances the quality of learning materials and reduces administrative overhead.
+
+Moreover, the plain text formats of Markdown and \acro{YAML} offer significant advantages over binary formats like Microsoft Office. They allow for efficient version control, better tracking of changes, collaborative editing, and fewer defects in the final products. The capability to produce various output formats, such as \acro{EPUB}, \acro{HTML}, and \acro{PDF} with functional hyperlinks and cross-references, further amplifies the utility of this approach.
+
+\section*{Acknowledgements}
+I wish to extend my special thanks to Tereza Vrabcová, Marei Peischl, Daniel Po\v{l}an, and Petr Sojka for their invaluable insights and thorough review of our work. Their expertise and thoughtful feedback have been instrumental in shaping the final manuscript.
+
+I would also like to thank Greg at \url{https://fiverr.com/quickcartoon} for their illustrations of the wolf mascot, which has provided an engaging visual identity of the Markdown package over the past four years.
 
 \SetBibJustification{\raggedright \advance\itemsep by 2pt plus1pt minus1pt}
 \bibliographystyle{tugboat}

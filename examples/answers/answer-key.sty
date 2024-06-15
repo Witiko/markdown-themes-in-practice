@@ -9,8 +9,7 @@
   { import = istqb / sample-exam }
 \markdownSetupSnippet
   { answer-key }
-  {
-    snippet = istqb / sample-exam
+  { snippet = istqb / sample-exam
       / questions,
     renderers = {
       jekyllDataEnd = {
@@ -31,7 +30,8 @@
         \tablelasttail { \hline }
         \tl_set:Nn
           \l_istqb_answer_key_table_tl
-          { \begin
+          {
+            \begin
               { supertabular }
               { | C { 1.9cm } | C { 1.5cm }
                 | C { 2.4cm } | C { 1.4cm }
@@ -99,7 +99,4 @@
           { \end { supertabular } }
         \tl_use:N
           \l_istqb_answer_key_table_tl
-        \end { multicols }
-      },
-    },
-  }
+        \end { multicols } }}}
