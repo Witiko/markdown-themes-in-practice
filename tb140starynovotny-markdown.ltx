@@ -218,7 +218,7 @@ The snippet processes question definitions as follows:
 \item Pass the structured field \texttt{answers} to a snippet \texttt{questions\slash *\slash answers}.
 \end{enumerate}
 
-Notice the design pattern on lines \linesref{pattern:01}, \linesref{pattern:02}, and \linesref{pattern:03} that locally applies a \meta{snippet} to an \meta{element}. This pattern redefines the renderer \meta{element}\verb"Begin", which is placed to the output when the \meta{element} starts, as follows:
+Notice the design pattern on lines \linesref{pattern:01}, \linesref{pattern:02}, and \linesref{pattern:03} that locally applies a \meta{snippet} to an \meta{element}.\footnote{Such design patterns can be repetitive and difficult to understand without additional comments in the code. Markdown Enhancement Proposal (\acro{MEP}) 445~\cite{starynovotny2024parametric} envisions support for higher-order snippets that would make it possible to hide such design patterns behind easy-to-read shorthands.} This pattern redefines the renderer \meta{element}\verb"Begin", which is placed to the output when the \meta{element} starts, as follows:
 \begin{enumerate}
 \item Open a \TeX{} group and apply the \meta{snippet}.
 \item Redefine the renderer \meta{element}\verb"End", which is placed to the output when the \meta{element} ends, so that it closes the \TeX{} group.
@@ -316,7 +316,7 @@ Then, I set the heading and the tail of the table:
   {firstline=17, lastline=30}
   {examples/answers/answer-key.sty}
 
-Next, I define a variable with code that typesets the table:
+Next, I define a variable that typesets the table:
 
 \showimplementation
   {firstline=31, lastline=33}
