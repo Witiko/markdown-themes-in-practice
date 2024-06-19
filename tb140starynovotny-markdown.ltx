@@ -310,12 +310,14 @@ After the question definitions have been processed, I start a two-column layout:
   {firstline=14, lastline=16}
   {examples/answers/answer-key.sty}
 
+\noindent
 Then, I set the heading and the tail of the table:
 
 \showimplementation
   {firstline=17, lastline=30}
   {examples/answers/answer-key.sty}
 
+\noindent
 Next, I define a variable that typesets the table:
 
 \showimplementation
@@ -378,16 +380,10 @@ After I have iterated over all question numbers, I end the table:
   {firstline=97, lastline=99}
   {examples/answers/answer-key.sty}
 
-Then, I place the content of the variable to the input stream:
+Finally, I place the content of the variable to the input stream and I end the multicolumn layout:
 
 \showimplementation
-  {firstline=100, lastline=101}
-  {examples/answers/answer-key.sty}
-
-Finally, I end the multicolumn layout:
-
-\showimplementation
-  {firstline=102}
+  {firstline=100}
   {examples/answers/answer-key.sty}
 
 \subsection{Typesetting answers}
@@ -457,7 +453,7 @@ Next, I add the learning objective:
   {examples/answers/answers.sty}
 
 \noindent
-Lastly, I add the K-level:
+Then, I add the K-level:
 
 \showimplementation
   {firstline=99, lastline=108}
@@ -477,7 +473,7 @@ After I have iterated over all question numbers, I end the table:
   {firstline=120, lastline=122}
   {examples/answers/answers.sty}
 
-Then, I place the content of the variable to the input stream:
+Finally, I place the content of the variable to the input stream:
 
 \showimplementation
   {firstline=123}
