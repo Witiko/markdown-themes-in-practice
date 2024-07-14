@@ -78,24 +78,18 @@
               jekyllDataMappingEnd +=
                 \group_end: }}}}}%\linelabel{pattern:02:end}%
 \prop_new:N
-  \g_istqb_question_number_of_points_prop
-\prop_new:N
   \g_istqb_question_learning_objective_prop
 \prop_new:N
   \g_istqb_question_k_level_prop
 \prop_new:N
-  \g_istqb_question_explanation_prop
+  \g_istqb_question_number_of_points_prop
 \prop_new:N
   \g_istqb_question_text_prop
+\prop_new:N
+  \g_istqb_question_explanation_prop
 \keys_define:nn
   { istqb / questions / * }
-  { number-of-points .code:n = {
-      \prop_gput:cVn
-        { g_istqb_question_number_of_points
-          _prop }
-        \l_istqb_current_question_tl
-        { #1 } },
-    learning-objective .code:n = {
+  { learning-objective .code:n = {
       \prop_gput:cVn
         { g_istqb_question_learning_objective
           _prop }
@@ -106,14 +100,20 @@
         \g_istqb_question_k_level_prop
         \l_istqb_current_question_tl
         { #1 } },
-    explanation .code:n = {
-      \prop_gput:NVn
-        \g_istqb_question_explanation_prop
+    number-of-points .code:n = {
+      \prop_gput:cVn
+        { g_istqb_question_number_of_points
+          _prop }
         \l_istqb_current_question_tl
         { #1 } },
     question .code:n = {
       \prop_gput:NVn
         \g_istqb_question_text_prop
+        \l_istqb_current_question_tl
+        { #1 } },
+    explanation .code:n = {
+      \prop_gput:NVn
+        \g_istqb_question_explanation_prop
         \l_istqb_current_question_tl
         { #1 } }}
 \markdownSetupSnippet
@@ -155,8 +155,6 @@
 \prop_new:N \g_istqb_answer_keys_prop
 \prop_new:N \g_istqb_answers_prop
 \seq_new:N \l_istqb_current_answer_keys_seq
-\clist_new:N
-  \l_istqb_current_answer_keys_clist
 \markdownSetupSnippet
   { questions / * / answers }
   { renderers = {
@@ -183,12 +181,9 @@
           \l_istqb_current_question_tl
           { l_istqb_current_answer_keys
             _clist } }}}
-\prop_new:N
-  \g_istqb_answer_correct_keys_prop
+\prop_new:N \g_istqb_answer_correct_keys_prop
 \seq_new:N
   \l_istqb_current_answer_correct_keys_seq
-\clist_new:N
-  \l_istqb_current_answer_correct_keys_clist
 \markdownSetupSnippet
   { questions / * / correct }
   { renderers = {

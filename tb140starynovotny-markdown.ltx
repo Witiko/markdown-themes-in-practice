@@ -135,7 +135,7 @@ As an example of an \acro{ISTQB} Sample Exam Answers document, I use the followi
 \inputminted{latex}{examples/answer-key-and-answers-short.tex}
 
 \noindent
-The file imports the snippet \texttt{answers} from theme \texttt{istqb\slash sample-exam\slash answers} and uses it to:
+The file imports snippets \texttt{answers} and \texttt{answer-key} from theme \texttt{istqb\slash sample-exam\slash answers} and uses them to:
 \begin{enumerate}
 \item Process question definitions in \texttt{questions.yml}.
 \item Typeset the answer key shown in Figure~\ref{fig:question-definitions}b.
@@ -374,16 +374,10 @@ Lastly, I add the number of points:
   {examples/answers/answer-key.sty}
 
 \noindent
-After I have iterated over all question numbers, I end the table:
+After I have iterated over all question numbers, I end the table, I place the content of the variable to the input stream, and I end the multicolumn layout:
 
 \showimplementation
-  {firstline=97, lastline=99}
-  {examples/answers/answer-key.sty}
-
-Finally, I place the content of the variable to the input stream and I end the multicolumn layout:
-
-\showimplementation
-  {firstline=100}
+  {firstline=97}
   {examples/answers/answer-key.sty}
 
 \subsection{Typesetting answers}
@@ -467,16 +461,10 @@ Lastly, I add the number of points:
   {examples/answers/answers.sty}
 
 \noindent
-After I have iterated over all question numbers, I end the table:
+After I have iterated over all question numbers, I end the table and I place the content of the variable to the input stream:
 
 \showimplementation
-  {firstline=120, lastline=122}
-  {examples/answers/answers.sty}
-
-Finally, I place the content of the variable to the input stream:
-
-\showimplementation
-  {firstline=123}
+  {firstline=120}
   {examples/answers/answers.sty}
 
 \section*{Conclusion}

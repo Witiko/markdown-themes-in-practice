@@ -11,7 +11,7 @@ questions:
       What is the answer to life,
       the universe, and everything?
     answers: {a: 24, b: 42, c: 64, d: 84}
-    correct: b
+    correct: [b]
     explanation: >
       The answer to life, the universe,
       and everything is a concept from
@@ -26,7 +26,7 @@ questions:
     question: What’s France’s capital?
     answers: {a: Berlin, b: Madrid,
               c: Paris, d: Rome}
-    correct: c
+    correct: [c]
     explanation: >
       The capital of France is Paris,
       known for art, fashion, and culture.
