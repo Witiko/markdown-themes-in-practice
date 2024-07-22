@@ -13,7 +13,7 @@ jobs:
     name: Typeset article
     runs-on: ubuntu-latest
     container:
-      image: texlive/texlive:latest
+      image: witiko/markdown:3.6.2-5-g28fc6f72-latest
     permissions:
       contents: write
     steps:
