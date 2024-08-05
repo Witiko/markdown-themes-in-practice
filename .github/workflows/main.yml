@@ -29,16 +29,16 @@ jobs:
       - name: Typeset examples
         run: parallel --halt now,fail=1 -- latexmk -cd ':::' examples/*.tex
       - name: Typeset article
-        run: latexmk tb140starynovotny-markdown.ltx
+        run: latexmk tb140starynovotny-markdown-themes.ltx
       - name: Check that there are fewer than or exactly 10 pages
-        run: test `tail tb140starynovotny-markdown.log | sed -rn 's/.*\(([0-9]*) pages.*/\1/p'` -le 10
+        run: test `tail tb140starynovotny-markdown-themes.log | sed -rn 's/.*\(([0-9]*) pages.*/\1/p'` -le 10
       - name: Archive sources
-        run: zip -@ tb140starynovotny-markdown < MANIFEST
+        run: zip -@ tb140starynovotny-markdown-themes < MANIFEST
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: tb140starynovotny-markdown
-          path: tb140starynovotny-markdown.zip
+          name: tb140starynovotny-markdown-themes
+          path: tb140starynovotny-markdown-themes.zip
       - name: Create a prerelease
         if: github.ref == 'refs/heads/main'
         uses: marvinpinto/action-automatic-releases@latest
@@ -48,5 +48,5 @@ jobs:
           prerelease: true
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           files: |
-            tb140starynovotny-markdown.pdf
-            tb140starynovotny-markdown.zip
+            tb140starynovotny-markdown-themes.pdf
+            tb140starynovotny-markdown-themes.zip

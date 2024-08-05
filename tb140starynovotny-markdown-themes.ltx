@@ -27,6 +27,13 @@
   \oldshowimplementation[#1]{#2}%
   \endgroup
 }
+\def\plaininputminted#1#2{%
+  \begingroup
+  \let\textit\textsl
+  \let\bfseries\relax
+  \inputminted{#1}{#2}%
+  \endgroup
+}
 \def\slash{\discretionary{/}{/}{/}}
 \def\hyphen{\discretionary{-}{-}{-}}
 \def\lineref#1{\ref{line:#1}}
@@ -88,7 +95,7 @@ In my work, I developed a \LaTeX{} document class and six Markdown themes~\cite{
 
 The \LaTeX{} document class is named \texttt{istqb} and it is stored in file \texttt{template\slash istqb.cls}. It implements the design of all \acro{ISTQB} documents, defines the meaning of common Unicode characters, and defines \LaTeX{} markup such as \cs{istqbunnumbered\-section}, \texttt{\textbackslash istqb\-land\-scape\-begin}, and \texttt{\textbackslash istqb\-land\-scape\-end}.
 
-The Markdown themes are named \texttt{istqb\slash*} and stored in files \texttt{template\slash markdowntheme*.tex} and \texttt{*.sty}, see also Figure~\ref{fig:class-diagram}. Here is what they do:
+The Markdown themes are named \texttt{istqb\slash*} and stored in files \texttt{template\slash markdowntheme*.tex} and \texttt{*.sty}; see also Figure~\ref{fig:class-diagram}. Here is what they do:
 \begin{itemize}
 \item The theme \texttt{istqb\slash common} enables Markdown syntax extensions, implements the loading of \acro{YAML} language definitions and document metadata into \TeX{} macros, and defines the mapping between Markdown elements and \LaTeX{} markup. The remaining themes are based on this theme and they implement support for specific types of \acro{ISTQB} documents.
 \item The \texttt{istqb\slash body-of-knowledge} and  \texttt{syllabus} themes are used in \acro{ISTQB} Body of Knowledge and Syllabus documents. At the time of writing, the themes implement no extra functionality.
@@ -101,7 +108,7 @@ The Markdown themes are named \texttt{istqb\slash*} and stored in files \texttt{
 \noindent
 \begin{tikzpicture}[every node/.style={inner sep=0pt, outer sep=0pt}]
   \node (wolf) at (0, 0) {\includegraphics[width=\linewidth]{images/detective-wolf.jpg}};
-  \node [above=-4.5mm of wolf, text width=\linewidth, align=justify] {In the rest of this article, I show the main concepts behind Markdown themes on the example of \acro{ISTQB} Sample Exam Questions and Answers documents that use the themes \texttt{istqb\slash sample-exam\slash questions} and \texttt{\slash answers}.};
+  \node [above=-4.5mm of wolf, text width=\linewidth, align=justify] {In the rest of this article, I show the main concepts behind Markdown themes using the examples of \acro{ISTQB} Sample Exam Questions and Answers documents, which use the themes \texttt{istqb\slash sample-exam\slash questions} and \texttt{\slash answers}.};
   \node [below=3mm of wolf, text width=\linewidth, align=center] {With Markdown themes, your document can wear many different disguises, just like the wolf.};
 \end{tikzpicture}%
 \vspace{-0.65mm}
@@ -109,7 +116,7 @@ The Markdown themes are named \texttt{istqb\slash*} and stored in files \texttt{
 \section{Question definitions}
 As an example of question definitions, I use the following \acro{YAML} file named \texttt{questions.yml}:
 
-\inputminted{yaml}{examples/questions.yml}
+\plaininputminted{yaml}{examples/questions.yml}
 
 \noindent
 The file specifies three questions. For each question, it provides up to five possible answers.
@@ -120,7 +127,7 @@ In this section, I show how we can use themes \texttt{istqb\slash sample-exam\sl
 \subsection{Typesetting questions}
 As an example of an \acro{ISTQB} Sample Exam Questions document, I use the following \LaTeX{} file:
 
-\inputminted{latex}{examples/questions.tex}
+\plaininputminted{latex}{examples/questions.tex}
 
 \noindent
 The file imports the snippet \texttt{questions} from theme \texttt{istqb\slash sample-exam\slash questions} and uses it to:
@@ -132,7 +139,7 @@ The file imports the snippet \texttt{questions} from theme \texttt{istqb\slash s
 \subsection{Typesetting answer key and answers}
 As an example of an \acro{ISTQB} Sample Exam Answers document, I use the following \LaTeX{} file:
 
-\inputminted{latex}{examples/answer-key-and-answers-short.tex}
+\plaininputminted{latex}{examples/answer-key-and-answers-short.tex}
 
 \noindent
 The file imports snippets \texttt{answers} and \texttt{answer-key} from theme \texttt{istqb\slash sample-exam\slash answers} and uses them to:
@@ -202,7 +209,7 @@ Then, I define key--value \texttt{istqb\slash questions\slash *}:
   {examples/questions.sty}
 
 \noindent
-The key--value stores the values in unstructured fields \texttt{number\hyphen of\hyphen points}, \texttt{learing\hyphen objective}, \texttt{k\hyphen level}, \texttt{explanation}, and \texttt{question} to dicts. The dicts use the current question number as the key.
+The key--value stores the values in unstructured fields \texttt{number\hyphen of\hyphen points}, \texttt{learning\hyphen objective}, \texttt{k\hyphen level}, \texttt{explanation}, and \texttt{question} to dicts. The dicts use the current question number as the key.
 
 Next, I define the snippet \texttt{questions/*}:
 
@@ -233,7 +240,7 @@ Finally, I define snippets \texttt{questions\slash *\slash answers} and \texttt{
 \noindent
 The snippets accumulate potential and correct answer letters in a sequence, respectively. Then, they store the sequence as a comma-list to a dict that uses the current question number as the key.
 
-Moveover, the snippet \texttt{questions\slash *\slash answers} stores potential answer texts to a dict that uses \meta{current question number}\texttt{\slash}\meta{answer letter} as key.
+Moreover, the snippet \texttt{questions\slash *\slash answers} stores potential answer texts to a dict that uses \meta{current question number}\texttt{\slash}\meta{answer letter} as key.
 
 Notice that I used no format-specific code in this section. Therefore, I can use the theme \texttt{istqb\slash sample-exam} with any format that supports expl3 such as plain \TeX{} and \Hologo{ConTeXt}, not just with \LaTeX.
 
@@ -286,7 +293,7 @@ For short questions, I insert the box to the current list for typesetting to pre
   {firstline=81}
   {examples/questions/questions.sty}
 
-\subsection{Typesetting answer key}
+\subsection{Typesetting the answer key}
 In this section, I describe the snippet \texttt{answer\hyphen key} from the theme \texttt{istqb\slash sample\hyphen exam\slash answers}. This snippet typesets the answer key in Figure~\ref{fig:question-definitions}b.
 
 First, I load packages multicol and supertabular:
@@ -392,7 +399,7 @@ First, I load package longtable:
 \noindent
 The package allows me to typeset the list of answers as a table that automatically inserts page breaks.
 
-Next, I use snippet the \texttt{questions} from theme \texttt{istqb\slash sample\hyphen exam} to process question definitions:
+Next, I use the snippet \texttt{questions} from theme \texttt{istqb\slash sample\hyphen exam} to process question definitions:
 
 \showimplementation
   {firstline=5, lastline=8}
@@ -471,12 +478,12 @@ After I have iterated over all question numbers, I end the table and I place the
 
 In this article, I have demonstrated the practical application of Markdown themes through a project that enabled the International Software Testing Qualifications Board (\acro{ISTQB}) to produce their certification study materials from Markdown and \acro{YAML} sources. While my previous article~\cite{novotny2021markdown} focused on the underlying concepts of Markdown themes, this article provides concrete code used in a real-world software project. I hope this practical demonstration raises awareness of Markdown themes and illustrates how users can incorporate them into their own projects.
 
-For \acro{ISTQB}, the project for has yielded numerous benefits: Writing text in a structured format using Markdown and \acro{YAML}, while generating visually appealing outputs with \LaTeX{}, facilitates the separation of content from formatting. This ensures consistent application of the document's visual style across all \acro{ISTQB} content. Additionally, the structured text enables content verification against \acro{YAML} schemas and \acro{ISTQB} writing rules and allows for the creation of a complex knowledge base through automated processing. This enhances the quality of learning materials and reduces administrative overhead.
+For \acro{ISTQB}, the project has yielded numerous benefits: Writing text in a structured format using Markdown and \acro{YAML}, while generating visually appealing outputs with \LaTeX{}, facilitates the separation of content from formatting. This ensures consistent application of the document's visual style across all \acro{ISTQB} content. Additionally, the structured text enables content verification against \acro{YAML} schemas and \acro{ISTQB} writing rules and allows for the creation of a complex knowledge base through automated processing. This enhances the quality of learning materials and reduces administrative overhead.
 
 Moreover, the plain text formats of Markdown and \acro{YAML} offer significant advantages over binary formats like Microsoft Office. They allow for efficient version control, better tracking of changes, collaborative editing, and fewer defects in the final products. The capability to produce various output formats, such as \acro{EPUB}, \acro{HTML}, and \acro{PDF} with functional hyperlinks and cross-references, further amplifies the utility of this approach.
 
 \section*{Related work}
-Although this article is titled ``\!\emph{Markdown} themes in practice'', my main example focused on processing and typesetting \acro{YAML} files rather than Markdown. In my approach, I developed an event-based \LaTeX{} parser that constructs and typesets expl3 data structures that represent \acro{YAML} files. My approach works in any \TeX{} engine with shell access, such as pdf\TeX{} and \XeTeX, not just Lua\TeX.
+In my approach, I developed an event-based \LaTeX{} parser that constructs and typesets expl3 data structures that represent \acro{YAML} files.\footnote{My focus on processing and typesetting \emph{\acro{YAML}} files may seem contrary to the title of this article ``\!\emph{Markdown} themes in practice''. However, authors may use Markdown markup in \acro{YAML} files. In the examples from this article, we might use Markdown to format questions, answers, and explanations.} My approach works in any \TeX{} engine with shell access, such as pdf\TeX{} and \XeTeX, not just Lua\TeX.
 
 In the previous issue of \TUB~\cite{nijenhuis2024specifying}, Erik Nijenhuis showed a different approach towards typesetting \acro{YAML} files in \LaTeX. In their approach, Erik used their lua-placeholders library~\cite{nijenhuis2024lua} to load \acro{YAML} files into Lua tables and then query them from \TeX{} code. Erik's approach requires Lua\TeX{} but can be more convenient for non-programmers.
 
@@ -491,7 +498,7 @@ I would also like to thank Greg at \url{https://fiverr.com/quickcartoon} for the
 \bibliographystyle{tugboat}
 \begingroup
 \gappto{\UrlBreaks}{\UrlOrds}
-\bibliography{tb140starynovotny-markdown}
+\bibliography{tb140starynovotny-markdown-themes}
 \endgroup
 
 \makesignature
