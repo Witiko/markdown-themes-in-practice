@@ -27,6 +27,13 @@
   \oldshowimplementation[#1]{#2}%
   \endgroup
 }
+\def\plaininputminted#1#2{%
+  \begingroup
+  \let\textit\textsl
+  \let\bfseries\relax
+  \inputminted{#1}{#2}%
+  \endgroup
+}
 \def\slash{\discretionary{/}{/}{/}}
 \def\hyphen{\discretionary{-}{-}{-}}
 \def\lineref#1{\ref{line:#1}}
@@ -109,7 +116,7 @@ The Markdown themes are named \texttt{istqb\slash*} and stored in files \texttt{
 \section{Question definitions}
 As an example of question definitions, I use the following \acro{YAML} file named \texttt{questions.yml}:
 
-\inputminted{yaml}{examples/questions.yml}
+\plaininputminted{yaml}{examples/questions.yml}
 
 \noindent
 The file specifies three questions. For each question, it provides up to five possible answers.
@@ -120,7 +127,7 @@ In this section, I show how we can use themes \texttt{istqb\slash sample-exam\sl
 \subsection{Typesetting questions}
 As an example of an \acro{ISTQB} Sample Exam Questions document, I use the following \LaTeX{} file:
 
-\inputminted{latex}{examples/questions.tex}
+\plaininputminted{latex}{examples/questions.tex}
 
 \noindent
 The file imports the snippet \texttt{questions} from theme \texttt{istqb\slash sample-exam\slash questions} and uses it to:
@@ -132,7 +139,7 @@ The file imports the snippet \texttt{questions} from theme \texttt{istqb\slash s
 \subsection{Typesetting answer key and answers}
 As an example of an \acro{ISTQB} Sample Exam Answers document, I use the following \LaTeX{} file:
 
-\inputminted{latex}{examples/answer-key-and-answers-short.tex}
+\plaininputminted{latex}{examples/answer-key-and-answers-short.tex}
 
 \noindent
 The file imports snippets \texttt{answers} and \texttt{answer-key} from theme \texttt{istqb\slash sample-exam\slash answers} and uses them to:
